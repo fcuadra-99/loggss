@@ -13,17 +13,41 @@ const ThreeScene: React.FC = () => {
             containerRef.current?.appendChild(renderer.domElement);
             camera.position.z = 5;
 
-            const geometry = new THREE.BoxGeometry();
-            const material = new THREE.MeshBasicMaterial({ color: 'hotpink', wireframe: true, transparent: true, opacity: 0.4 } );
-            const cube = new THREE.Mesh(geometry, material);
+            const cbgeometry = new THREE.BoxGeometry();
+            const cbmaterial = new THREE.MeshBasicMaterial({ color: 'hotpink', wireframe: true, transparent: true, opacity: 0.4 });
+            const cube = new THREE.Mesh(cbgeometry, cbmaterial);
             scene.add(cube);
 
-            scene.fog = new THREE.Fog('aqua', 4, 6.5);
-            const flyControls = new FlyControls( camera, renderer.domElement );
+            scene.fog = new THREE.Fog('aqua', 2, 6.5);
+            const flyControls = new FlyControls(camera, renderer.domElement);
             flyControls.update(1);
-            flyControls.movementSpeed = 0.3;
+            flyControls.movementSpeed = 0.17;
+            flyControls.rollSpeed = 0.012;
+            flyControls.autoForward = false;
+
+            const cb2geometry = new THREE.BoxGeometry(50, 50, 50);
+            const cube2 = new THREE.Mesh(cb2geometry, cbmaterial);
+            cube2.position.y = 20;
+            scene.add(cube2);
+
+            
 
             const renderScene = () => {
+                camera.rotation.z = 0;
+                camera.position.y = 0;
+                if (camera.rotation.x < 0) {
+                    camera.rotation.x = 0;
+                    camera.rotation.z = 0;
+                }
+                if (camera.rotation.x > 0.8) {
+                    camera.rotation.x = 0.8
+                    camera.rotation.z = 0;
+                }
+                camera.rotation.z = 0;
+                console.log(`x: ${camera.rotation.x}`)
+                console.log(`y: ${camera.rotation.y}`)
+                console.log(`z: ${camera.rotation.x}`)
+
                 cube.rotation.x += 0.01;
                 cube.rotation.y += 0.01;
                 flyControls.update(1);
