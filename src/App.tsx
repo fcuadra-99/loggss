@@ -1,16 +1,18 @@
-import Scene from './assets/Scene.tsx'
+import Scene from './assets/Scene1.tsx'
 import './App.css'
 
-function App() {
 
+function App() {
   return (
     <>
-    <main className='scene'>
-      <Scene/>
-    </main>
+      <main className='scene'>
+        <Scene />
+        <div className='testoverlay'>
+          TEST
+        </div>
+      </main>
     </>
   )
 }
 
 export default App
-

@@ -16,12 +16,19 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.scene{
-    width:100%;
-    height:100vh;
-    background-color: rebeccapurple;
+.testoverlay {
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  left: 15px;
+  top: 10px;
 }
 
+.scene {
+  width: 100%;
+  height: 100vh;
+  background-color: rebeccapurple;
+}
 
 @keyframes logo-spin {
   from {
