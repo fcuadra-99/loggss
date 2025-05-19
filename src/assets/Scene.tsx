@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { FlyControls } from 'three/addons/controls/FlyControls.js';
 import * as THREE from 'three';
 
 const ThreeScene: React.FC = () => {
@@ -13,13 +14,19 @@ const ThreeScene: React.FC = () => {
             camera.position.z = 5;
 
             const geometry = new THREE.BoxGeometry();
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const material = new THREE.MeshBasicMaterial({ color: 'hotpink', wireframe: true, transparent: true, opacity: 0.4 } );
             const cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
+
+            scene.fog = new THREE.Fog('aqua', 4, 6.5);
+            const flyControls = new FlyControls( camera, renderer.domElement );
+            flyControls.update(1);
+            flyControls.movementSpeed = 0.3;
 
             const renderScene = () => {
                 cube.rotation.x += 0.01;
                 cube.rotation.y += 0.01;
+                flyControls.update(1);
                 renderer.render(scene, camera);
                 requestAnimationFrame(renderScene);
             };
