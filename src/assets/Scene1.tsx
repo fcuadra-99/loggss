@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from 'react';
-import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
 import * as THREE from 'three';
 
 
