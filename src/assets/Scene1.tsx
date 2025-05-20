@@ -22,7 +22,7 @@ const ThreeScene: React.FC = () => {
             let controls: { [key: number]: boolean } = {};
             let player = {
                 height: .1,
-                turnSpeed: .02,
+                turnSpeed: .001,
                 speed: .1,
                 jumpHeight: .2,
                 gravity: .01,
@@ -51,32 +51,34 @@ const ThreeScene: React.FC = () => {
 
             function ctrl() {
                 const dir = new THREE.Vector3();
+
                 cam.getWorldDirection(dir).normalize();
                 dir.y = 0;
 
-                if (controls[87]) cam.position.addScaledVector(dir, player.speed);
+                if (controls[87]) {
+                    if (controls[16]) {
+                        cam.position.addScaledVector(dir, player.speed * 2);
+                    }
+                    cam.position.addScaledVector(dir, player.speed);
+                }
                 if (controls[83]) cam.position.addScaledVector(dir, -player.speed);
                 const side = new THREE.Vector3().crossVectors(dir, cam.up).normalize();
                 if (controls[65]) cam.position.addScaledVector(side, -player.speed);
                 if (controls[68]) cam.position.addScaledVector(side, player.speed);
-                if (controls[39]) {
-                    cam.rotation.y -= player.turnSpeed;
+                if (0.7 < m.x / window.innerWidth && ctrlon) {
+                    const mult = m.x / (window.innerWidth * 0.3);
+                    cam.rotation.y -= player.turnSpeed * (1.5 * Math.exp(mult));
                 }
-                if (controls[37]) {
-                    cam.rotation.y += player.turnSpeed;
-                }
-                if (0.7 < m.x/window.innerWidth && ctrlon) {
-                    cam.rotation.y -= player.turnSpeed;
-                }
-                if (0.3 > m.x/window.innerWidth && ctrlon) {
-                    cam.rotation.y += player.turnSpeed;
+                if (0.3 > m.x / window.innerWidth && ctrlon) {
+                    const mult = (window.innerWidth - m.x) / (window.innerWidth * 0.3);
+                    cam.rotation.y += player.turnSpeed * (1.5 * Math.exp(mult));
                 }
                 if (controls[32]) {
                     if (player.jumps) return false;
                     player.jumps = true;
                     player.velocity = -player.jumpHeight;
                 }
-                
+
             }
 
             // Objs
@@ -128,6 +130,7 @@ const ThreeScene: React.FC = () => {
 
             function init() {
                 cam.position.z = 5;
+                cam.rotation.z = 0;
                 rend.setSize(window.innerWidth, window.innerHeight);
                 containerRef.current?.appendChild(rend.domElement);
             }
