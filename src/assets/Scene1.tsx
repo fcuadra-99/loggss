@@ -74,25 +74,23 @@ const ThreeScene: React.FC = () => {
                     if (cam.rotation.x < -0.5) return;
                     const mult = m.y / (window.innerHeight * 0.4);
                     cam.rotateOnAxis(yaw, -0.002 * (1.5 * Math.exp(mult)));
-                    cam.up.copy(originalUp);
+
                 }
                 if (0.4 > m.y / window.innerWidth && ctrlon) {
                     if (cam.rotation.x > 0.8) return;
                     const mult = (window.innerHeight - m.y) / (window.innerHeight * 0.4);
                     cam.rotateOnAxis(yaw, 0.002 * (1.5 * Math.exp(mult)));
-                    cam.up.copy(originalUp);
+
                 }
                 if (0.7 < m.x / window.innerWidth && ctrlon) {
                     const mult = m.x / (window.innerWidth * 0.3);
                     cam.rotateOnAxis(pitch, -0.001 * (1.5 * Math.exp(mult)));
-                    cam.up.copy(originalUp);
-                    cam.lookAt(cam.position.clone().add(cam.getWorldDirection(new THREE.Vector3())));
+
                 }
                 if (0.3 > m.x / window.innerWidth && ctrlon) {
                     const mult = (window.innerWidth - m.x) / (window.innerWidth * 0.3);
                     cam.rotateOnAxis(pitch, 0.001 * (1.5 * Math.exp(mult)));
-                    cam.up.copy(originalUp);
-                    cam.lookAt(cam.position.clone().add(cam.getWorldDirection(new THREE.Vector3())));
+
                 }
 
                 if (controls[32]) {
@@ -100,6 +98,7 @@ const ThreeScene: React.FC = () => {
                     player.jumps = true;
                     player.velocity = -player.jumpHeight;
                 }
+                cam.lookAt(cam.position.clone().add(cam.getWorldDirection(new THREE.Vector3())));
             }
 
             // Objs
