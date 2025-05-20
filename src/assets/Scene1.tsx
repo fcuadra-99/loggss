@@ -98,6 +98,7 @@ const ThreeScene: React.FC = () => {
                     player.jumps = true;
                     player.velocity = -player.jumpHeight;
                 }
+                cam.up.copy(originalUp);
                 cam.lookAt(cam.position.clone().add(cam.getWorldDirection(new THREE.Vector3())));
             }
 
