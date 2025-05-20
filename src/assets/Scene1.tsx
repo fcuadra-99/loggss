@@ -55,10 +55,6 @@ const ThreeScene: React.FC = () => {
             function ctrl() {
                 const bnds = { minX: -50, maxX: 50, minY: -3, maxY: 7, minZ: -50, maxZ: 50 };
 
-                const playerSize = {
-                    height: 1.0
-                };
-
                 const movement = new THREE.Vector3();
                 const dir = new THREE.Vector3();
                 const pitch = new THREE.Vector3(0, 1, 0);
@@ -94,12 +90,12 @@ const ThreeScene: React.FC = () => {
                     if (controls[68]) moveVector.add(side);
 
                     if (moveVector.length() > 0) {
-                        const p = cam.position.clone().add(moveVector.normalize().multiplyScalar(speed));
-                        const h = playerSize.height / 2;
+                        const pos = cam.position.clone().add(moveVector.normalize().multiplyScalar(speed));
+                        const height = player.height / 2;
                         cam.position.set(
-                            THREE.MathUtils.clamp(p.x, bnds.minX + player.radius, bnds.maxX - player.radius),
-                            THREE.MathUtils.clamp(p.y, bnds.minY + h, bnds.maxY - h),
-                            THREE.MathUtils.clamp(p.z, bnds.minZ + player.radius, bnds.maxZ - player.radius)
+                            THREE.MathUtils.clamp(pos.x, bnds.minX + player.radius, bnds.maxX - player.radius),
+                            THREE.MathUtils.clamp(pos.y, bnds.minY + height, bnds.maxY - height),
+                            THREE.MathUtils.clamp(pos.z, bnds.minZ + player.radius, bnds.maxZ - player.radius)
                         );
                     }
 
