@@ -1,5 +1,5 @@
 import Scene from './assets/Scene1.tsx'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.css'
 
 
