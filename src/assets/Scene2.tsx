@@ -3,8 +3,6 @@ import * as THREE from 'three';
 
 let ctrlon = true;
 
-//fix ctrlon as it is not updating
-
 const ThreeScene: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
@@ -27,7 +25,7 @@ const ThreeScene: React.FC = () => {
                 height: .1,
                 turnSpeed: .001,
                 speed: .1,
-                jumpHeight: 0.2,
+                jumpHeight: .2,
                 gravity: .01,
                 velocity: 0,
                 horsens: 0.2,
@@ -39,23 +37,33 @@ const ThreeScene: React.FC = () => {
             // Ctrl
             const m = { x: 0, y: 0 };
             function ctrl() {
-                let { bnds, dir, mv, spd } = {
-                    bnds: { minX: -50, maxX: 50, minY: -3, maxY: 7, minZ: -50, maxZ: 50 },
-                    dir: new THREE.Vector3(),
-                    mv: new THREE.Vector3(),
-                    spd: player.speed * 1,
-                }
+                const bnds = { minX: -50, maxX: 50, minY: -3, maxY: 7, minZ: -50, maxZ: 50 };
+                const movement = new THREE.Vector3();
+                const dir = new THREE.Vector3();
                 cam.getWorldDirection(dir).normalize();
 
-                if (!ctrlon) {
-                    const side = new THREE.Vector3().crossVectors(dir, cam.up).normalize();
-                    if (controls[87]) mv.add(dir);
-                    if (controls[83]) mv.sub(dir);
-                    if (controls[65]) mv.sub(side);
-                    if (controls[68]) mv.add(side);
+                if (movement.length() > 0) {
+                    const newPosition = cam.position.clone().add(movement);
 
-                    if (mv.length() > 0) {
-                        const pos = cam.position.clone().add(mv.normalize().multiplyScalar(spd));
+                    newPosition.x = THREE.MathUtils.clamp(newPosition.x, bnds.minX, bnds.maxX);
+                    newPosition.y = THREE.MathUtils.clamp(newPosition.y, bnds.minY, bnds.maxY);
+                    newPosition.z = THREE.MathUtils.clamp(newPosition.z, bnds.minZ, bnds.maxZ);
+
+                    cam.position.copy(newPosition);
+                }
+
+                if (!ctrlon) {
+                    const moveVector = new THREE.Vector3();
+                    const speed = player.speed * 1;
+                    const side = new THREE.Vector3().crossVectors(dir, cam.up).normalize();
+
+                    if (controls[87]) moveVector.add(dir);
+                    if (controls[83]) moveVector.sub(dir);
+                    if (controls[65]) moveVector.sub(side);
+                    if (controls[68]) moveVector.add(side);
+
+                    if (moveVector.length() > 0) {
+                        const pos = cam.position.clone().add(moveVector.normalize().multiplyScalar(speed));
                         const height = player.height / 2;
                         cam.position.set(
                             THREE.MathUtils.clamp(pos.x, bnds.minX + player.radius, bnds.maxX - player.radius),
@@ -64,20 +72,30 @@ const ThreeScene: React.FC = () => {
                         );
                     }
 
-                    if (5 < Math.abs(m.x) || 3 < Math.abs(m.y)) {
-                        cam.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), - m.x * 0.0018);
-                        cam.rotateX(- m.y * 0.002);
+                    if (10 < m.x) {
+                        cam.rotation.y += m.x * 0.0022;
+                    }
+                    if (-10 > m.x) {
+                        cam.rotation.y += m.x * 0.0022;
                     }
 
-                    const euler = new THREE.Euler().setFromQuaternion(cam.quaternion, 'YXZ');
-                    euler.x = THREE.MathUtils.clamp(euler.x, -0.5, 0.7);
-                    cam.quaternion.setFromEuler(euler);
+                    //Up controls still buggy
+                    if (10 < m.y) {
+                        cam.rotation.x = m.y * 0.0022;
+                    }
+                    if (-10 > m.y) {
+                        cam.rotation.x = m.y * 0.0022;
+                    }
 
                     if (controls[32]) {
                         if (player.jumps) return false;
                         player.jumps = true;
                         player.velocity = -player.jumpHeight;
                     }
+
+                    cam.up.copy(new THREE.Vector3(0, 1, 0));
+                    cam.lookAt(cam.position.clone().add(cam.getWorldDirection(new THREE.Vector3())));
+
                 }
             }
 
@@ -115,7 +133,7 @@ const ThreeScene: React.FC = () => {
                             color: 'skyblue',
                             wireframe: true,
                             transparent: true,
-                            opacity: 0
+                            opacity: 0.1
                         }),
                         pos: new THREE.Vector3(0, -0.2, 0)
                     }
@@ -168,8 +186,6 @@ const ThreeScene: React.FC = () => {
 
             function init() {
                 scen.fog = new THREE.Fog('white', 1, 50);
-                cam.position.z = 5;
-                cam.rotation.z = 0;
                 rend.setSize(window.innerWidth, window.innerHeight);
                 containerRef.current?.appendChild(rend.domElement);
             }
