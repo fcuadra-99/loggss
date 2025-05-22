@@ -3,7 +3,6 @@ import { useState } from 'react';
 import './App.css'
 
 
-
 function App() {
   const [ctrlon, setcon] = useState(true);
 
@@ -13,7 +12,7 @@ function App() {
     } else {
       setcon(true);
     }
-    console.log(ctrlon);
+    ctrlon;
   });
 
   return (

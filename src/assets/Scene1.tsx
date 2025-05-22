@@ -1,8 +1,23 @@
 import React, { useRef, useEffect } from 'react';
+import { sens } from './PauseMenu';
 import * as THREE from 'three';
 import PauseMenu from './PauseMenu';
 
 let ctrlon = true;
+
+let controls: { [key: number]: boolean } = {};
+let player = {
+    height: .1,
+    turnSpeed: .001,
+    speed: .1,
+    jumpHeight: 0.23,
+    gravity: .01,
+    velocity: 0,
+    horsens: 0.2,
+    radius: 1,
+    jumps: false,
+    sens: 0.002
+};
 
 const ThreeScene: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -20,27 +35,11 @@ const ThreeScene: React.FC = () => {
                 rend: new THREE.WebGLRenderer(),
             };
 
-
-            // Plyr
-            let controls: { [key: number]: boolean } = {};
-            let player = {
-                height: .1,
-                turnSpeed: .001,
-                speed: .1,
-                jumpHeight: 0.2,
-                gravity: .01,
-                velocity: 0,
-                horsens: 0.2,
-                radius: 1,
-                jumps: false
-            };
-
-
             // Ctrl
             const m = { x: 0, y: 0 };
             function ctrl() {
                 let { bnds, dir, mv, spd } = {
-                    bnds: { minX: -50, maxX: 50, minY: -3, maxY: 7, minZ: -50, maxZ: 50 },
+                    bnds: { minX: -50, maxX: 50, minY: -3, maxY: 10, minZ: -50, maxZ: 50 },
                     dir: new THREE.Vector3(),
                     mv: new THREE.Vector3(),
                     spd: player.speed * 1,
@@ -65,8 +64,8 @@ const ThreeScene: React.FC = () => {
                     }
 
                     if (5 < Math.abs(m.x) || 3 < Math.abs(m.y)) {
-                        cam.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), - m.x * 0.0018);
-                        cam.rotateX(- m.y * 0.002);
+                        cam.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), - m.x * player.sens);
+                        cam.rotateX(- m.y * player.sens);
                     }
 
                     const euler = new THREE.Euler().setFromQuaternion(cam.quaternion, 'YXZ');
@@ -131,10 +130,7 @@ const ThreeScene: React.FC = () => {
 
             // Other
             {
-                document.addEventListener("click", () => {
-                    document.body.requestPointerLock();
-                });
-                
+
                 document.addEventListener("pointerlockchange", () => {
                     if (document.pointerLockElement === document.body) {
                         ctrlon = false;
@@ -156,8 +152,6 @@ const ThreeScene: React.FC = () => {
                         m.y = e.movementY;
                     }
                 }
-
-
             }
 
             function jAnim() {
@@ -185,9 +179,9 @@ const ThreeScene: React.FC = () => {
             };
 
             const renderScene = () => {
-                ctrl();
                 jAnim();
-                PauseMenu(ctrlon);
+                ctrl();
+                player.sens = sens();
                 mesh.plyr.position.copy(cam.position);
                 mesh.plyr.rotation.copy(cam.rotation);
                 mesh.cube.rotation.x += 0.01;
@@ -212,7 +206,7 @@ const ThreeScene: React.FC = () => {
     return (
         <>
             <div ref={containerRef} />
-            {PauseMenu(ctrlon)}
+            {PauseMenu(ctrlon, player.sens)}
         </>
     );
 };
