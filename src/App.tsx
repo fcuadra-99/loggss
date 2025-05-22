@@ -13,6 +13,7 @@ function App() {
     } else {
       setcon(true);
     }
+    console.log(ctrlon);
   });
 
   return (
