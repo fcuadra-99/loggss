@@ -3,7 +3,7 @@ import { useState } from 'react';
 let val = 0.002;
 
 function tPause() {
-    document.body.requestPointerLock();
+    document.body.requestPointerLock({ unadjustedMovement: true });
 }
 
 function PauseMenu(ctrlon: boolean, s: number) {
@@ -36,7 +36,8 @@ function PauseMenu(ctrlon: boolean, s: number) {
         <>
             <div onClick={tPause} className="pbg" />
             <section className={`pmenu ${ctrlon ? "active" : "inactive"}`}>
-                <h1>{`Sensitivity: ${(a() * 10000000).toPrecision(2)}`}</h1>
+                Paused
+                <h1>{`Sensitivity: ${(a() * 10000000).toFixed(2)}`}</h1>
                 {Slider()}
             </section>
         </>
