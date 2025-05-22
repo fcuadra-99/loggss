@@ -7,10 +7,6 @@ import './App.css'
 function App() {
   const [ctrlon, setcon] = useState(true);
 
-  document.addEventListener("click", () => {
-    document.body.requestPointerLock();
-  });
-
   document.addEventListener("pointerlockchange", () => {
     if (document.pointerLockElement === document.body) {
       setcon(false);
@@ -26,9 +22,6 @@ function App() {
         <div className='testoverlay'>
           TEST
         </div>
-        <section className={`pmenu ${ctrlon ? "active" : "inactive"}`}>
-          <h1>Paused</h1>
-        </section>
       </main>
     </>
   )

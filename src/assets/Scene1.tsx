@@ -1,12 +1,12 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
+import PauseMenu from './PauseMenu';
 
 let ctrlon = true;
 
-//fix ctrlon as it is not updating
-
 const ThreeScene: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         if (typeof window !== 'undefined') {
             // Wrld
@@ -131,6 +131,10 @@ const ThreeScene: React.FC = () => {
 
             // Other
             {
+                document.addEventListener("click", () => {
+                    document.body.requestPointerLock();
+                });
+                
                 document.addEventListener("pointerlockchange", () => {
                     if (document.pointerLockElement === document.body) {
                         ctrlon = false;
@@ -183,6 +187,7 @@ const ThreeScene: React.FC = () => {
             const renderScene = () => {
                 ctrl();
                 jAnim();
+                PauseMenu(ctrlon);
                 mesh.plyr.position.copy(cam.position);
                 mesh.plyr.rotation.copy(cam.rotation);
                 mesh.cube.rotation.x += 0.01;
@@ -192,6 +197,7 @@ const ThreeScene: React.FC = () => {
             };
 
             window.addEventListener('resize', handleResize);
+
             init();
             renderScene();
 
@@ -203,7 +209,12 @@ const ThreeScene: React.FC = () => {
         }
     }, []);
 
-    return <div ref={containerRef} />;
+    return (
+        <>
+            <div ref={containerRef} />
+            {PauseMenu(ctrlon)}
+        </>
+    );
 };
 
 export default ThreeScene;
