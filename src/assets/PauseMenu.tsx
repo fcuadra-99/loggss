@@ -14,6 +14,9 @@ function PauseMenu(ctrlon: boolean) {
                 <p className='labe'>Click to Continue</p>
                 <Btns />
                 {Slider()}
+                <div>
+
+                </div>
             </section>
         </>
     )
