@@ -63,7 +63,7 @@ const ThreeScene: React.FC = () => {
                         );
                     }
 
-                    if (5 < Math.abs(m.x) || 3 < Math.abs(m.y)) {
+                    if (10 < Math.abs(m.x) || 5 < Math.abs(m.y)) {
                         cam.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), - m.x * player.sens);
                         cam.rotateX(- m.y * player.sens);
                     }

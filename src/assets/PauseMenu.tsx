@@ -18,9 +18,10 @@ function PauseMenu(ctrlon: boolean, s: number) {
         };
 
         return (<>
+            <h1>{`Sensitivity: ${(value * 1000).toFixed(2)}`}</h1>
             <input type="range"
-                min={0} max={0.005}
-                step={0.0001}
+                min={0.00001} max={0.005}
+                step={0.00001}
                 value={value}
                 onChange={handleInputChange}
                 className="slider"
@@ -28,17 +29,14 @@ function PauseMenu(ctrlon: boolean, s: number) {
         </>)
     }
 
-    function a() {
-        console.log(val / 10000)
-        return val / 10000;
-    }
     return (
         <>
-            <div onClick={tPause} className="pbg" />
+            <div onClick={tPause} className={`pbg ${ctrlon ? "active" : "inactive"}`} />
             <section className={`pmenu ${ctrlon ? "active" : "inactive"}`}>
-                Paused
-                <h1>{`Sensitivity: ${(a() * 10000000).toFixed(2)}`}</h1>
-                {Slider()}
+                <h2 className='labe'>Paused</h2>
+                <div className='slaida'>
+                    {Slider()}
+                </div>
             </section>
         </>
     )
