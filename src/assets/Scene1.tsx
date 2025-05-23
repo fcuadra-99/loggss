@@ -152,8 +152,8 @@ const ThreeScene: React.FC = () => {
                         m.y = e.movementY;
                         clearTimeout(moveTimeout);
                         moveTimeout = setTimeout(() => {
-                            m.x *= 0.9;
-                            m.y *= 0.9;
+                            m.x *= 0.01;
+                            m.y *= 0.01;
                         }, 100);
                     }
                 }
