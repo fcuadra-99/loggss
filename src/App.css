@@ -17,37 +17,15 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.exit {
+.optiC {
   position: fixed;
-  background-color: red;
-  border-radius: 10px;
-  padding: 10px;
-  bottom: 0;
-  left: 0;
-  margin: 30px;
+  background-color: rgb(24, 24, 24);
+  width: 40vw;
+  min-width: 300px;
+  height: 300px;
+  z-index: 12;
   pointer-events: all;
-}
-
-.opti {
-  position: fixed;
-  background-color: blue;
-  border-radius: 10px;
-  padding: 10px;
-  bottom: 0;
-  right: 0;
-  margin: 30px;
-  pointer-events: all;
-}
-
-.info {
-  position: fixed;
-  background-color: yellow;
-  border-radius: 10px;
-  padding: 10px;
-  bottom: 0;
-  right: 0;
-  margin: 30px 80px;
-  pointer-events: all;
+  border-radius: 20px;
 }
 
 .testoverlay {
@@ -66,49 +44,6 @@
 .inactive {
   opacity: 0;
   pointer-events: none;
-}
-
-.pbg {
-  pointer-events: all;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100vh;
-  justify-content: space-evenly;
-  margin: 0;
-  padding: 0;
-  z-index: 9;
-  background-color: rgba(0, 0, 0, 0.575);
-}
-
-.pmenu {
-  z-index: 10;
-  pointer-events: none;
-  position: fixed;
-  display: flex;
-  align-items: center;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100vh;
-  padding: 0;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.pmenu .labe {
-  pointer-events: all;
-  user-select: none;
-  z-index: 11;
-  margin: 10px;
-}
-
-.pmenu h2 {
-  font-size: xx-large;
 }
 
 .scene {
