@@ -69,7 +69,7 @@ const ThreeScene: React.FC = () => {
                     }
 
                     const euler = new THREE.Euler().setFromQuaternion(cam.quaternion, 'YXZ');
-                    euler.x = THREE.MathUtils.clamp(euler.x, -0.6, 0.7);
+                    euler.x = THREE.MathUtils.clamp(euler.x, -0.8, 1);
                     cam.quaternion.setFromEuler(euler);
 
                     if (controls[32]) {
