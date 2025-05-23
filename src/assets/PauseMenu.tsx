@@ -2,10 +2,9 @@ import { useState } from 'react';
 
 let val = 0.002;
 
-function PauseMenu(ctrlon: boolean, s: number) {
+function PauseMenu(ctrlon: boolean) {
     const [value, setValue] = useState(val);
-    const [opt, togopt]= useState(true);
-    console.log('s', s)
+    const [opt, togopt] = useState(false);
 
     return (
         <>
@@ -21,7 +20,6 @@ function PauseMenu(ctrlon: boolean, s: number) {
 
     function ShowOption() {
         togopt(!opt);
-        console.log(opt);
     }
 
     function Btns() {
@@ -54,6 +52,7 @@ function PauseMenu(ctrlon: boolean, s: number) {
                 marginRight: '10px'
             } as React.CSSProperties
         }
+
         const handleInputChange = (event: { target: { value: any; }; }) => {
             setValue(Number(event.target.value));
             val = value;
@@ -76,14 +75,16 @@ function PauseMenu(ctrlon: boolean, s: number) {
 
         </>)
     }
-}
 
-function tPause() {
-    document.body.requestPointerLock({ unadjustedMovement: true });
-}
+    function tPause() {
+        document.body.requestPointerLock({ 
+            unadjustedMovement: true 
+        }).then(() => togopt(false))
+    }
 
+}
 export function sens() {
-    console.log(val)
+    //console.log(val)
     return val;
 }
 

@@ -69,7 +69,7 @@ const ThreeScene: React.FC = () => {
                     }
 
                     const euler = new THREE.Euler().setFromQuaternion(cam.quaternion, 'YXZ');
-                    euler.x = THREE.MathUtils.clamp(euler.x, -0.5, 0.7);
+                    euler.x = THREE.MathUtils.clamp(euler.x, -0.6, 0.7);
                     cam.quaternion.setFromEuler(euler);
 
                     if (controls[32]) {
@@ -130,7 +130,6 @@ const ThreeScene: React.FC = () => {
 
             // Other
             {
-
                 document.addEventListener("pointerlockchange", () => {
                     if (document.pointerLockElement === document.body) {
                         ctrlon = false;
@@ -147,9 +146,15 @@ const ThreeScene: React.FC = () => {
                 });
 
                 document.onmousemove = (e) => {
+                    let moveTimeout;
                     if (!ctrlon) {
                         m.x = e.movementX;
                         m.y = e.movementY;
+                        clearTimeout(moveTimeout);
+                        moveTimeout = setTimeout(() => {
+                            m.x *= 0.9;
+                            m.y *= 0.9;
+                        }, 100);
                     }
                 }
             }
@@ -206,7 +211,7 @@ const ThreeScene: React.FC = () => {
     return (
         <>
             <div ref={containerRef} />
-            {PauseMenu(ctrlon, player.sens)}
+            {PauseMenu(ctrlon)}
         </>
     );
 };
