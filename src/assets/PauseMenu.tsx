@@ -1,27 +1,55 @@
 import React from 'react';
 import { useState } from 'react';
 
-let sensi = 0;
-let maVol = 0;
-let sdVol = 0;
-let muVol = 0;
+let { sensi, maVol, sdVol, muVol, mode } = {
+    sensi: 0,
+    maVol: 0,
+    sdVol: 0,
+    muVol: 0,
+    mode: 'dark'
+}
+
+let theme: any = {
+    mcol: 'rgba(0, 0, 0, 0.575)',
+    scol: 'rgb(24, 24, 24)',
+    tcol: 'rgb(255, 255, 255)'
+}
+
+setCookie('mode', 'light', 30);
 
 if (isSet('sensitivity') && isSet('mainvol') &&
-    isSet('soundvol') && isSet('musvol')) {
+    isSet('soundvol') && isSet('musvol') && isSet('mode')) {
     sensi = +getCookie('sensitivity');
     maVol = +getCookie('mainvol');
     sdVol = +getCookie('soundvol');
     muVol = +getCookie('musvol');
-    console.log(sensi, maVol, sdVol, muVol);
+    mode = getCookie('mode');
+    console.log(mode);
 } else {
     sensi = 0.002;
     maVol = 75;
     sdVol = 80;
     muVol = 80;
+    mode = 'light';
     setCookie('sensitivity', sensi, 30);
     setCookie('mainvol', maVol, 30);
     setCookie('soundvol', sdVol, 30);
     setCookie('musvol', muVol, 30);
+    setCookie('mode', mode, 30);
+}
+
+if (mode == 'light') {
+    theme = {
+        mcol: 'rgba(255, 255, 255, 0.57)',
+        scol: 'rgb(243, 243, 243)',
+        tcol: 'rgb(0, 0, 0)'
+    }
+} else if (mode == 'dark') {
+    theme = {
+        mcol: 'rgba(0, 0, 0, 0.575)',
+        scol: 'rgb(24, 24, 24)',
+        tcol: 'rgb(255, 255, 255)'
+    }
 }
 
 
@@ -46,7 +74,7 @@ function PauseMenu(ctrlon: boolean) {
             margin: '0',
             padding: '0',
             zIndex: 9,
-            backgroundColor: 'rgba(0, 0, 0, 0.575)'
+            backgroundColor: `${theme.mcol}`
         } as React.CSSProperties,
 
         pmenu: {
@@ -92,7 +120,17 @@ function PauseMenu(ctrlon: boolean) {
 
         inp: {
             width: '100%'
-        } as React.CSSProperties
+        } as React.CSSProperties,
+        optiC: {
+            position: 'fixed',
+            backgroundColor: `${theme.scol}`,
+            width: '40vw',
+            minWidth: '300px',
+            height: '330px',
+            zIndex: '12',
+            pointerEvents: 'all',
+            borderRadius: '20px'
+        } as React.CSSProperties,
     };
 
     return (
@@ -102,7 +140,7 @@ function PauseMenu(ctrlon: boolean) {
                 <h1 style={styles.pmenuLabe}>Paused</h1>
                 <p style={styles.pmenuLabe}>Click to Continue</p>
                 <Btns />
-                <div className={`optiC ${opt ? "active" : "inactive"}`} >
+                <div style={styles.optiC} className={`${opt ? "active" : "inactive"}`} >
                     <h3 style={styles.h3}>Options</h3>
                     {SensiSlider()}
                     {maVolSlider()}

@@ -17,17 +17,6 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-.optiC {
-  position: fixed;
-  background-color: rgb(24, 24, 24);
-  width: 40vw;
-  min-width: 300px;
-  height: 330px;
-  z-index: 12;
-  pointer-events: all;
-  border-radius: 20px;
-}
-
 .testoverlay {
   position: fixed;
   top: 15px;
