@@ -2,8 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 
 
-sessionStorage.setItem('my-key', JSON.stringify('red'));
-const storedData = JSON.parse(sessionStorage.getItem('my-key'));
+// sessionStorage.setItem('my-key', JSON.stringify('red'));
+// const storedData = JSON.parse(sessionStorage.getItem('my-key'));
 
 let sensi = 0.002;
 let maVol = 75;
