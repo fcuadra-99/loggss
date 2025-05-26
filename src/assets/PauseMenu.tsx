@@ -15,7 +15,7 @@ let theme: any = {
     tcol: 'rgb(255, 255, 255)'
 }
 
-setCookie('mode', 'light', 30);
+
 
 if (isSet('sensitivity') && isSet('mainvol') &&
     isSet('soundvol') && isSet('musvol') && isSet('mode')) {
@@ -24,7 +24,6 @@ if (isSet('sensitivity') && isSet('mainvol') &&
     sdVol = +getCookie('soundvol');
     muVol = +getCookie('musvol');
     mode = getCookie('mode');
-    console.log(mode);
 } else {
     sensi = 0.002;
     maVol = 75;
@@ -38,22 +37,23 @@ if (isSet('sensitivity') && isSet('mainvol') &&
     setCookie('mode', mode, 30);
 }
 
-if (mode == 'light') {
-    theme = {
-        mcol: 'rgba(255, 255, 255, 0.57)',
-        scol: 'rgb(243, 243, 243)',
-        tcol: 'rgb(0, 0, 0)'
-    }
-} else if (mode == 'dark') {
-    theme = {
-        mcol: 'rgba(0, 0, 0, 0.575)',
-        scol: 'rgb(24, 24, 24)',
-        tcol: 'rgb(255, 255, 255)'
-    }
-}
-
-
 function PauseMenu(ctrlon: boolean) {
+    if (mode == 'light') {
+        theme = {
+            mcol: 'rgba(255, 255, 255, 0.57)',
+            scol: 'rgb(243, 243, 243)',
+            tcol: 'rgb(0, 0, 0)'
+        }
+    } else if (mode == 'dark') {
+        theme = {
+            mcol: 'rgba(0, 0, 0, 0.575)',
+            scol: 'rgb(24, 24, 24)',
+            tcol: 'rgb(255, 255, 255)'
+        }
+    }
+    const [mcols, setmcols] = useState(theme.mcol)
+    const [scols, setscols] = useState(theme.scol)
+    const [tcols, settcols] = useState(theme.tcol)
     const [sensit, setSens] = useState(sensi);
     const [mainv, setmav] = useState(maVol);
     const [sounv, setsv] = useState(sdVol);
@@ -74,7 +74,7 @@ function PauseMenu(ctrlon: boolean) {
             margin: '0',
             padding: '0',
             zIndex: 9,
-            backgroundColor: `${theme.mcol}`
+            backgroundColor: `${mcols}`
         } as React.CSSProperties,
 
         pmenu: {
@@ -97,11 +97,13 @@ function PauseMenu(ctrlon: boolean) {
             pointerEvents: 'all',
             userSelect: 'none',
             zIndex: 11,
-            margin: '10px'
+            margin: '10px',
+            color: `${tcols}`
         } as React.CSSProperties,
 
         h3: {
-            margin: '20px 0px 0 0'
+            margin: '20px 0px 0 0',
+            color: `${tcols}`
         } as React.CSSProperties,
 
         slider: {
@@ -115,7 +117,8 @@ function PauseMenu(ctrlon: boolean) {
             fontSize: '15px',
             alignSelf: 'flex-end',
             marginRight: '10px',
-            minWidth: '150px'
+            minWidth: '150px',
+            color: `${tcols}`
         } as React.CSSProperties,
 
         inp: {
@@ -123,7 +126,7 @@ function PauseMenu(ctrlon: boolean) {
         } as React.CSSProperties,
         optiC: {
             position: 'fixed',
-            backgroundColor: `${theme.scol}`,
+            backgroundColor: `${scols}`,
             width: '40vw',
             minWidth: '300px',
             height: '330px',
@@ -132,6 +135,31 @@ function PauseMenu(ctrlon: boolean) {
             borderRadius: '20px'
         } as React.CSSProperties,
     };
+
+    function togmode() {
+        if (mode == 'light') {
+            mode = 'dark'
+        } else if (mode == 'dark') {
+            mode = 'light'
+        }
+        if (mode == 'light') {
+            theme = {
+                mcol: 'rgba(255, 255, 255, 0.57)',
+                scol: 'rgb(243, 243, 243)',
+                tcol: 'rgb(0, 0, 0)'
+            }
+        } else if (mode == 'dark') {
+            theme = {
+                mcol: 'rgba(0, 0, 0, 0.575)',
+                scol: 'rgb(24, 24, 24)',
+                tcol: 'rgb(255, 255, 255)'
+            }
+        }
+        setmcols(theme.mcol)
+        setscols(theme.scol)
+        settcols(theme.tcol)
+        setCookie('mode', mode, 30);
+    }
 
     return (
         <>
@@ -180,11 +208,13 @@ function PauseMenu(ctrlon: boolean) {
                 margin: '30px 90px',
             } as React.CSSProperties
         }
+
+
         return (
             <>
                 <div style={{ ...styles.btn, ...styles.exit }}></div>
                 <div style={{ ...styles.btn, ...styles.opti }} onClick={ShowOption}></div>
-                <div style={{ ...styles.btn, ...styles.info }}></div>
+                <div style={{ ...styles.btn, ...styles.info }} onClick={togmode}></div>
             </>
         )
     }
@@ -212,7 +242,6 @@ function PauseMenu(ctrlon: boolean) {
 
         </>)
     }
-
     function maVolSlider() {
         const handleInputChange = (event: { target: { value: any; }; }) => {
             setmav(Number(event.target.value));
@@ -237,7 +266,6 @@ function PauseMenu(ctrlon: boolean) {
 
         </>)
     }
-
     function muVolSlider() {
         const handleInputChange = (event: { target: { value: any }; }) => {
             setmuv(Number(event.target.value));
@@ -298,7 +326,6 @@ function setCookie(cname: string, cvalue: any, exdays: number) {
     let expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
 }
-
 function getCookie(cname: string) {
     let name = cname + "=";
     let ca = document.cookie.split(';');
@@ -313,7 +340,6 @@ function getCookie(cname: string) {
     }
     return "";
 }
-
 function isSet(cname: string) {
     let user = getCookie(cname);
     if (user != "") {

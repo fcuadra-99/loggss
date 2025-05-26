@@ -2,6 +2,7 @@
   margin: 0 auto;
   text-align: center;
   user-select: none;
+  transition: all 0.3s;
 }
 
 .logo {
