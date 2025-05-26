@@ -1,14 +1,29 @@
 import React from 'react';
 import { useState } from 'react';
 
+let sensi = 0;
+let maVol = 0;
+let sdVol = 0;
+let muVol = 0;
 
-// sessionStorage.setItem('my-key', JSON.stringify('red'));
-// const storedData = JSON.parse(sessionStorage.getItem('my-key'));
+if (isSet('sensitivity') && isSet('mainvol') &&
+    isSet('soundvol') && isSet('musvol')) {
+    sensi = +getCookie('sensitivity');
+    maVol = +getCookie('mainvol');
+    sdVol = +getCookie('soundvol');
+    muVol = +getCookie('musvol');
+    console.log(sensi, maVol, sdVol, muVol);
+} else {
+    sensi = 0.002;
+    maVol = 75;
+    sdVol = 80;
+    muVol = 80;
+    setCookie('sensitivity', sensi, 30);
+    setCookie('mainvol', maVol, 30);
+    setCookie('soundvol', sdVol, 30);
+    setCookie('musvol', muVol, 30);
+}
 
-let sensi = 0.002;
-let maVol = 75;
-let sdVol = 80;
-let muVol = 80;
 
 function PauseMenu(ctrlon: boolean) {
     const [sensit, setSens] = useState(sensi);
@@ -89,7 +104,7 @@ function PauseMenu(ctrlon: boolean) {
                 <Btns />
                 <div className={`optiC ${opt ? "active" : "inactive"}`} >
                     <h3 style={styles.h3}>Options</h3>
-                    {SensSlider()}
+                    {SensiSlider()}
                     {maVolSlider()}
                     {muVolSlider()}
                     {sdVolSlider()}
@@ -136,10 +151,11 @@ function PauseMenu(ctrlon: boolean) {
         )
     }
 
-    function SensSlider() {
+    function SensiSlider() {
         const handleInputChange = (event: { target: { value: any; }; }) => {
             setSens(Number(event.target.value));
             sensi = sensit;
+            setCookie('sensitivity', sensi, 30);
         };
 
         return (<>
@@ -163,6 +179,8 @@ function PauseMenu(ctrlon: boolean) {
         const handleInputChange = (event: { target: { value: any; }; }) => {
             setmav(Number(event.target.value));
             maVol = mainv;
+            setCookie('mainvol', maVol, 30);
+
         };
 
         return (<>
@@ -186,6 +204,7 @@ function PauseMenu(ctrlon: boolean) {
         const handleInputChange = (event: { target: { value: any }; }) => {
             setmuv(Number(event.target.value));
             muVol = musv;
+            setCookie('musvol', muVol, 30);
         };
 
         return (<>
@@ -208,6 +227,7 @@ function PauseMenu(ctrlon: boolean) {
         const handleInputChange = (event: { target: { value: any; }; }) => {
             setsv(Number(event.target.value));
             sdVol = sounv;
+            setCookie('soundvol', sdVol, 30);
         };
 
         return (<>
@@ -231,6 +251,40 @@ function PauseMenu(ctrlon: boolean) {
         document.body.requestPointerLock({
             unadjustedMovement: true
         }).then(() => { togopt(false) })
+    }
+}
+
+function setCookie(cname: string, cvalue: any, exdays: number) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    let expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname: string) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+function isSet(cname: string) {
+    let user = getCookie(cname);
+    if (user != "") {
+        return true;
+    } else {
+        if (user != "" && user != null) {
+            setCookie("username", user, 365);
+            return false;
+        }
     }
 }
 
