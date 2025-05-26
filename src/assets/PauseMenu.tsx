@@ -1,9 +1,20 @@
+import React from 'react';
 import { useState } from 'react';
 
-let val = 0.002;
+
+sessionStorage.setItem('my-key', JSON.stringify('red'));
+const storedData = JSON.parse(sessionStorage.getItem('my-key'));
+
+let sensi = 0.002;
+let maVol = 75;
+let sdVol = 80;
+let muVol = 80;
 
 function PauseMenu(ctrlon: boolean) {
-    const [value, setValue] = useState(val);
+    const [sensit, setSens] = useState(sensi);
+    const [mainv, setmav] = useState(maVol);
+    const [sounv, setsv] = useState(sdVol);
+    const [musv, setmuv] = useState(muVol);
     const [opt, togopt] = useState(false);
 
     const styles = {
@@ -48,20 +59,40 @@ function PauseMenu(ctrlon: boolean) {
 
         h3: {
             margin: '20px 0px 0 0'
+        } as React.CSSProperties,
+
+        slider: {
+            display: 'flex',
+            margin: '0px 30px',
+            paddingRight: '10px',
+            justifyContent: 'space-between'
+        } as React.CSSProperties,
+
+        label: {
+            fontSize: '15px',
+            alignSelf: 'flex-end',
+            marginRight: '10px',
+            minWidth: '150px'
+        } as React.CSSProperties,
+
+        inp: {
+            width: '100%'
         } as React.CSSProperties
     };
 
     return (
         <>
-                <div onClick={tPause} className={`${toggle(ctrlon)}`} style={styles.pbg} />
+            <div onClick={tPause} className={`${toggle(ctrlon)}`} style={styles.pbg} />
             <section className={`${toggle(ctrlon)}`} style={styles.pmenu}>
                 <h1 style={styles.pmenuLabe}>Paused</h1>
                 <p style={styles.pmenuLabe}>Click to Continue</p>
                 <Btns />
-
                 <div className={`optiC ${opt ? "active" : "inactive"}`} >
                     <h3 style={styles.h3}>Options</h3>
-                    {Slider()}
+                    {SensSlider()}
+                    {maVolSlider()}
+                    {muVolSlider()}
+                    {sdVolSlider()}
                 </div>
             </section>
         </>
@@ -105,41 +136,89 @@ function PauseMenu(ctrlon: boolean) {
         )
     }
 
-    function Slider() {
-        const styles = {
-            slider: {
-                display: 'flex',
-                margin: '0px 30px',
-                justifyContent: 'space-between'
-            } as React.CSSProperties,
-
-            label: {
-                fontSize: 'medium',
-                alignSelf: 'flex-end',
-                marginRight: '10px',
-                minWidth: '150px'
-            } as React.CSSProperties,
-
-            inp: {
-                width: '100%'
-            } as React.CSSProperties
-        }
-
+    function SensSlider() {
         const handleInputChange = (event: { target: { value: any; }; }) => {
-            setValue(Number(event.target.value));
-            val = value;
-            val = value;
+            setSens(Number(event.target.value));
+            sensi = sensit;
         };
 
         return (<>
-            <div  style={styles.slider} className={`${toggle(opt)}`}>
+            <div style={styles.slider} className={`${toggle(opt)}`}>
                 <h4 style={styles.label}>
-                    {`Sensitivity: ${(value * 1000).toFixed(2)}`}
+                    {`Sensitivity: ${(sensit * 1000).toFixed(2)}`}
                 </h4>
                 <input type="range"
                     min={0.00001} max={0.005}
                     step={0.00001}
-                    value={value}
+                    value={sensit}
+                    onChange={handleInputChange}
+                    style={styles.inp}
+                />
+            </div>
+
+        </>)
+    }
+
+    function maVolSlider() {
+        const handleInputChange = (event: { target: { value: any; }; }) => {
+            setmav(Number(event.target.value));
+            maVol = mainv;
+        };
+
+        return (<>
+            <div style={styles.slider} className={`${toggle(opt)}`}>
+                <h4 style={styles.label}>
+                    {`Main Volume: ${(mainv)}`}
+                </h4>
+                <input type="range"
+                    min={0} max={100}
+                    step={1}
+                    value={mainv}
+                    onChange={handleInputChange}
+                    style={styles.inp}
+                />
+            </div>
+
+        </>)
+    }
+
+    function muVolSlider() {
+        const handleInputChange = (event: { target: { value: any }; }) => {
+            setmuv(Number(event.target.value));
+            muVol = musv;
+        };
+
+        return (<>
+            <div style={styles.slider} className={`${toggle(opt)}`}>
+                <h4 style={styles.label}>
+                    {`Music Volume: ${(musv)}`}
+                </h4>
+                <input type="range"
+                    min={0} max={100}
+                    step={1}
+                    value={musv}
+                    onChange={handleInputChange}
+                    style={styles.inp}
+                />
+            </div>
+        </>)
+    }
+
+    function sdVolSlider() {
+        const handleInputChange = (event: { target: { value: any; }; }) => {
+            setsv(Number(event.target.value));
+            sdVol = sounv;
+        };
+
+        return (<>
+            <div style={styles.slider} className={`${toggle(opt)}`}>
+                <h4 style={styles.label}>
+                    {`Sound Volume: ${(sounv)}`}
+                </h4>
+                <input type="range"
+                    min={0} max={100}
+                    step={1}
+                    value={sounv}
                     onChange={handleInputChange}
                     style={styles.inp}
                 />
@@ -151,16 +230,71 @@ function PauseMenu(ctrlon: boolean) {
     function tPause() {
         document.body.requestPointerLock({
             unadjustedMovement: true
-        }).then(() => {togopt(false)})
+        }).then(() => { togopt(false) })
     }
-
 }
+
+// type CounterProps = {
+//     header: string;
+// };
+
+// type CounterState = {
+//     value: number;
+// };
+
+// class Counter extends React.Component<CounterProps, CounterState> {
+//     state: CounterState = {
+//         value: 0,
+//     };
+
+//     render() {
+//         const styles = {
+//             slider: {
+//                 display: 'flex',
+//                 margin: '0px 30px',
+//                 justifyContent: 'space-between'
+//             } as React.CSSProperties,
+
+//             label: {
+//                 fontSize: 'medium',
+//                 alignSelf: 'flex-end',
+//                 marginRight: '10px',
+//                 minWidth: '150px'
+//             } as React.CSSProperties,
+
+//             inp: {
+//                 width: '100%'
+//             } as React.CSSProperties
+//         }
+//         const [val, setSens] = useState(sensi);
+//         const { header } = this.props;
+//         const { value } = this.state;
+//         const handleInputChange = (event: { target: { value: any; }; }) => {
+//             setSens(Number(event.target.value));
+//             sensi = sensit;
+//         };
+
+
+//         return (
+//             <div>
+//                 <h4>{header}</h4>
+//                 <input type="range"
+//                     min={0.00001} max={0.005}
+//                     step={0.00001}
+//                     value={sensit}
+//                     onChange={handleInputChange}
+//                     style={styles.inp}
+//                 />
+//             </div>
+//         );
+//     }
+// }
 
 const toggle = (toggle: boolean) => toggle ? "active" : "inactive";
 
 export function sens() {
-    //console.log(val)
-    return val;
+    //console.log(sensi)
+    return sensi;
 }
 
 export default PauseMenu
