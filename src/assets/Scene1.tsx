@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { sens } from './PauseMenu';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import * as THREE from 'three';
 import PauseMenu from './PauseMenu';
 
@@ -34,6 +35,36 @@ const ThreeScene: React.FC = () => {
                     1000),
                 rend: new THREE.WebGLRenderer(),
             };
+
+            const dlight = new THREE.DirectionalLight('white', 50);
+            dlight.castShadow = false;
+            
+
+            let test, mixer;
+            const loder = new GLTFLoader();
+            loder.load(
+                "src/assets/oiiai.glb",
+                function (gltf) {
+                    test = gltf.scene;
+                    test.position.z += 0.006;
+                    test.position.y = -0.18;
+                    scen.add(test);
+
+                    mixer = new THREE.AnimationMixer(test);
+
+                    mixer.clipAction(gltf.animations[0]).play();
+                    mixer.update(0.12);
+                    console.log(gltf.animations);
+                },
+                function (xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                function (error) {
+                    console.log(error);
+                }
+            );
+
+            scen.add(dlight);
 
             // Ctrl
             const m = { x: 0, y: 0 };
