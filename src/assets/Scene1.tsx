@@ -43,7 +43,7 @@ const ThreeScene: React.FC = () => {
             let test, mixer;
             const loder = new GLTFLoader();
             loder.load(
-                "./assets/oiiai.glb",
+                "/oiiai.glb",
                 function (gltf) {
                     test = gltf.scene;
                     test.position.z += 0.006;
