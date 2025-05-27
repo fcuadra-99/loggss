@@ -2,7 +2,10 @@
   margin: 0 auto;
   text-align: center;
   user-select: none;
-  transition: all 0.3s;
+}
+
+* {
+  transition: all 0.25s;
 }
 
 .logo {

@@ -15,8 +15,6 @@ let theme: any = {
     tcol: 'rgb(255, 255, 255)'
 }
 
-
-
 if (isSet('sensitivity') && isSet('mainvol') &&
     isSet('soundvol') && isSet('musvol') && isSet('mode')) {
     sensi = +getCookie('sensitivity');
@@ -40,7 +38,7 @@ if (isSet('sensitivity') && isSet('mainvol') &&
 function PauseMenu(ctrlon: boolean) {
     if (mode == 'light') {
         theme = {
-            mcol: 'rgba(255, 255, 255, 0.57)',
+            mcol: 'rgba(255, 255, 255, 0.74)',
             scol: 'rgb(243, 243, 243)',
             tcol: 'rgb(0, 0, 0)'
         }
@@ -74,7 +72,7 @@ function PauseMenu(ctrlon: boolean) {
             margin: '0',
             padding: '0',
             zIndex: 9,
-            backgroundColor: `${mcols}`
+            backgroundColor: `${mcols}`,
         } as React.CSSProperties,
 
         pmenu: {
@@ -136,30 +134,7 @@ function PauseMenu(ctrlon: boolean) {
         } as React.CSSProperties,
     };
 
-    function togmode() {
-        if (mode == 'light') {
-            mode = 'dark'
-        } else if (mode == 'dark') {
-            mode = 'light'
-        }
-        if (mode == 'light') {
-            theme = {
-                mcol: 'rgba(255, 255, 255, 0.57)',
-                scol: 'rgb(243, 243, 243)',
-                tcol: 'rgb(0, 0, 0)'
-            }
-        } else if (mode == 'dark') {
-            theme = {
-                mcol: 'rgba(0, 0, 0, 0.575)',
-                scol: 'rgb(24, 24, 24)',
-                tcol: 'rgb(255, 255, 255)'
-            }
-        }
-        setmcols(theme.mcol)
-        setscols(theme.scol)
-        settcols(theme.tcol)
-        setCookie('mode', mode, 30);
-    }
+
 
     return (
         <>
@@ -179,10 +154,8 @@ function PauseMenu(ctrlon: boolean) {
         </>
     )
 
-    function ShowOption() {
-        togopt(!opt);
-    }
 
+    // Comps
     function Btns() {
         const styles = {
             btn: {
@@ -288,7 +261,6 @@ function PauseMenu(ctrlon: boolean) {
             </div>
         </>)
     }
-
     function sdVolSlider() {
         const handleInputChange = (event: { target: { value: any; }; }) => {
             setsv(Number(event.target.value));
@@ -313,10 +285,40 @@ function PauseMenu(ctrlon: boolean) {
         </>)
     }
 
+    // Fxns
     function tPause() {
         document.body.requestPointerLock({
             unadjustedMovement: true
         }).then(() => { togopt(false) })
+    }
+
+    function togmode() {
+        if (mode == 'light') {
+            mode = 'dark'
+        } else if (mode == 'dark') {
+            mode = 'light'
+        }
+        if (mode == 'light') {
+            theme = {
+                mcol: 'rgba(255, 255, 255, 0.74)',
+                scol: 'rgb(243, 243, 243)',
+                tcol: 'rgb(0, 0, 0)'
+            }
+        } else if (mode == 'dark') {
+            theme = {
+                mcol: 'rgba(0, 0, 0, 0.575)',
+                scol: 'rgb(24, 24, 24)',
+                tcol: 'rgb(255, 255, 255)'
+            }
+        }
+        setmcols(theme.mcol)
+        setscols(theme.scol)
+        settcols(theme.tcol)
+        setCookie('mode', mode, 30);
+    }
+
+    function ShowOption() {
+        togopt(!opt);
     }
 }
 
