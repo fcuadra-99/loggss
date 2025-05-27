@@ -38,7 +38,7 @@ const ThreeScene: React.FC = () => {
 
             const dlight = new THREE.DirectionalLight('white', 50);
             dlight.castShadow = false;
-            
+
 
             let test, mixer;
             const loder = new GLTFLoader();
@@ -52,7 +52,7 @@ const ThreeScene: React.FC = () => {
 
                     mixer = new THREE.AnimationMixer(test);
 
-                    mixer.clipAction(gltf.animations[0]).play();
+                    mixer.clipAction(gltf.animations[1]).play();
                     mixer.update(0.12);
                     console.log(gltf.animations);
                 },
@@ -80,6 +80,7 @@ const ThreeScene: React.FC = () => {
                 if (!ctrlon) {
                     const side = new THREE.Vector3().crossVectors(dir, cam.up).normalize();
                     if (controls[87]) mv.add(dir);
+                    if (controls[16]) spd *= 2;
                     if (controls[83]) mv.sub(dir);
                     if (controls[65]) mv.sub(side);
                     if (controls[68]) mv.add(side);
