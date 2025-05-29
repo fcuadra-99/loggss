@@ -1,6 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import { sens } from './PauseMenu';
+
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { EffectComposer } from 'three/examples/jsm/Addons.js';
+import { RenderPass } from 'three/examples/jsm/Addons.js';
+import { UnrealBloomPass } from 'three/examples/jsm/Addons.js';
+
 import * as THREE from 'three';
 import PauseMenu from './PauseMenu';
 
@@ -33,12 +38,12 @@ const ThreeScene: React.FC = () => {
                     window.innerWidth / window.innerHeight,
                     0.1,
                     1000),
-                rend: new THREE.WebGLRenderer(),
+                rend: new THREE.WebGLRenderer({ antialias: true }),
             };
 
-            const dlight = new THREE.DirectionalLight('white', 50);
-            dlight.castShadow = false;
 
+            //const dlight = new THREE.AmbientLight('white', 0.1);
+            //dlight.castShadow = false;
 
             let test, mixer;
             const loder = new GLTFLoader();
@@ -46,8 +51,8 @@ const ThreeScene: React.FC = () => {
                 "/oiiai.glb",
                 function (gltf) {
                     test = gltf.scene;
-                    test.position.z += 0.006;
-                    test.position.y = -0.18;
+                    test.position.y = -0.2;
+                    test.scale.set(1.5, 1.5, 1.5);
                     scen.add(test);
 
                     mixer = new THREE.AnimationMixer(test);
@@ -64,7 +69,21 @@ const ThreeScene: React.FC = () => {
                 }
             );
 
-            scen.add(dlight);
+            //scen.add(dlight);
+
+            const rendScen = new RenderPass(scen, cam);
+            const bloompass = new UnrealBloomPass(
+                new THREE.Vector2(window.innerWidth, window.innerHeight),
+                2,
+                1,
+                0.5
+            )
+
+            const bloomComp = new EffectComposer(rend);
+            bloomComp.setSize(window.innerWidth, window.innerHeight);
+            bloomComp.renderToScreen = true;
+            bloomComp.addPass(rendScen);
+            bloomComp.addPass(bloompass);
 
             // Ctrl
             const m = { x: 0, y: 0 };
@@ -73,14 +92,13 @@ const ThreeScene: React.FC = () => {
                     bnds: { minX: -50, maxX: 50, minY: -3, maxY: 10, minZ: -50, maxZ: 50 },
                     dir: new THREE.Vector3(),
                     mv: new THREE.Vector3(),
-                    spd: player.speed * 1,
+                    spd: player.speed * 1.2,
                 }
                 cam.getWorldDirection(dir).normalize();
 
                 if (!ctrlon) {
                     const side = new THREE.Vector3().crossVectors(dir, cam.up).normalize();
                     if (controls[87]) mv.add(dir);
-                    if (controls[16]) spd *= 2;
                     if (controls[83]) mv.sub(dir);
                     if (controls[65]) mv.sub(side);
                     if (controls[68]) mv.add(side);
@@ -120,24 +138,29 @@ const ThreeScene: React.FC = () => {
                     {
                         name: 'cube',
                         geo: new THREE.BoxGeometry(),
-                        mat: new THREE.MeshBasicMaterial({
-                            color: 'hotpink',
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
                             wireframe: true,
                             transparent: true,
-                            opacity: 0.5
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('hotpink'),
+                            emissiveIntensity: 4,
                         }),
                         pos: new THREE.Vector3(0, 0, 0)
                     },
                     {
                         name: 'room',
-                        geo: new THREE.BoxGeometry(100, 10, 100),
-                        mat: new THREE.MeshBasicMaterial({
-                            color: 'skyblue',
+                        geo: new THREE.BoxGeometry(100, 0, 100),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
                             wireframe: true,
                             transparent: true,
-                            opacity: 0.25
+                            opacity: 0.1,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 20,
                         }),
-                        pos: new THREE.Vector3(0, 2, 0)
+                        pos: new THREE.Vector3(0, -2, 0)
                     },
                     {
                         name: 'plyr',
@@ -152,9 +175,12 @@ const ThreeScene: React.FC = () => {
                     }
                 ];
 
+
+
                 for (let o of obj) {
                     mesh[o.name] = new THREE.Mesh(o.geo, o.mat);
                     mesh[o.name].position.copy(o.pos);
+                    mesh[o.name].layers.set(1);
                     scen.add(mesh[o.name]);
                 }
             }
@@ -202,7 +228,7 @@ const ThreeScene: React.FC = () => {
             }
 
             function init() {
-                scen.fog = new THREE.Fog('white', 1, 50);
+                scen.fog = new THREE.Fog('#19191a', 0, 100);
                 cam.position.z = 5;
                 cam.rotation.z = 0;
                 rend.setSize(window.innerWidth, window.innerHeight);
@@ -223,7 +249,15 @@ const ThreeScene: React.FC = () => {
                 mesh.plyr.rotation.copy(cam.rotation);
                 mesh.cube.rotation.x += 0.01;
                 mesh.cube.rotation.y += 0.01;
-                rend.render(scen, cam);
+                // if (cmode() == 'light') {
+                //     scen.background = new THREE.Color('white');
+                //     scen.backgroundIntensity = 0.1;
+                // } else {
+                //     scen.background = new THREE.Color('black');
+                //     scen.backgroundIntensity = 0.1;
+                // }
+                cam.layers.set(1);
+                bloomComp.render();
                 requestAnimationFrame(renderScene);
             };
 

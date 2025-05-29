@@ -417,4 +417,11 @@ export function sens() {
     return sensi;
 }
 
+console.log(mode)
+
+export function cmode() {
+    //console.log(mode)
+    return mode;
+}
+
 export default PauseMenu
