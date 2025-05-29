@@ -38,8 +38,8 @@ const ThreeScene: React.FC = () => {
                     window.innerWidth / window.innerHeight,
                     0.1,
                     1000),
-                rend: new THREE.WebGLRenderer({ antialias: true }),
-            };
+                rend: new THREE.WebGLRenderer({ antialias: false }),
+            }; 
 
 
             const dlight = new THREE.AmbientLight('white', 1);

@@ -97,7 +97,7 @@ function PauseMenu(ctrlon: boolean) {
             userSelect: 'none',
             zIndex: 11,
             margin: '10px',
-            color: `${tcols}`
+            color: `${tcols}`,
         } as React.CSSProperties,
 
         h3: {
