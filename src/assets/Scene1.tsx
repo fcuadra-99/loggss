@@ -42,8 +42,8 @@ const ThreeScene: React.FC = () => {
             };
 
 
-            //const dlight = new THREE.AmbientLight('white', 0.1);
-            //dlight.castShadow = false;
+            const dlight = new THREE.AmbientLight('white', 1);
+            dlight.castShadow = false;
 
             let test, mixer;
             const loder = new GLTFLoader();
@@ -69,7 +69,7 @@ const ThreeScene: React.FC = () => {
                 }
             );
 
-            //scen.add(dlight);
+            scen.add(dlight);
 
             const rendScen = new RenderPass(scen, cam);
             const bloompass = new UnrealBloomPass(
@@ -158,7 +158,7 @@ const ThreeScene: React.FC = () => {
                             transparent: true,
                             opacity: 0.1,
                             emissive: new THREE.Color('skyblue'),
-                            emissiveIntensity: 20,
+                            emissiveIntensity: 10,
                         }),
                         pos: new THREE.Vector3(0, -2, 0)
                     },
@@ -180,7 +180,6 @@ const ThreeScene: React.FC = () => {
                 for (let o of obj) {
                     mesh[o.name] = new THREE.Mesh(o.geo, o.mat);
                     mesh[o.name].position.copy(o.pos);
-                    mesh[o.name].layers.set(1);
                     scen.add(mesh[o.name]);
                 }
             }
@@ -228,7 +227,7 @@ const ThreeScene: React.FC = () => {
             }
 
             function init() {
-                scen.fog = new THREE.Fog('#19191a', 0, 100);
+                scen.fog = new THREE.Fog('#19191a', 90, 100);
                 cam.position.z = 5;
                 cam.rotation.z = 0;
                 rend.setSize(window.innerWidth, window.innerHeight);
@@ -247,8 +246,8 @@ const ThreeScene: React.FC = () => {
                 player.sens = sens();
                 mesh.plyr.position.copy(cam.position);
                 mesh.plyr.rotation.copy(cam.rotation);
-                mesh.cube.rotation.x += 0.01;
-                mesh.cube.rotation.y += 0.01;
+                mesh.cube.rotation.x += 0.02;
+                mesh.cube.rotation.y += 0.02;
                 // if (cmode() == 'light') {
                 //     scen.background = new THREE.Color('white');
                 //     scen.backgroundIntensity = 0.1;
@@ -256,7 +255,6 @@ const ThreeScene: React.FC = () => {
                 //     scen.background = new THREE.Color('black');
                 //     scen.backgroundIntensity = 0.1;
                 // }
-                cam.layers.set(1);
                 bloomComp.render();
                 requestAnimationFrame(renderScene);
             };

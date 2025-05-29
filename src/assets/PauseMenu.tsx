@@ -73,6 +73,7 @@ function PauseMenu(ctrlon: boolean) {
             padding: '0',
             zIndex: 9,
             backgroundColor: `${mcols}`,
+            backdropFilter: 'blur(5px)'
         } as React.CSSProperties,
 
         pmenu: {
