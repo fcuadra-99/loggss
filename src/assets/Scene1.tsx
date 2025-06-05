@@ -162,23 +162,177 @@ const ThreeScene: React.FC = () => {
                             color: 'white',
                             wireframe: true,
                             transparent: true,
-                            opacity: 0,
+                            opacity: 0.8,
                             flatShading: true,
-                            emissive: new THREE.Color('orange'),
-                            emissiveIntensity: 4,
+                            emissive: new THREE.Color('white'),
+                            emissiveIntensity: 1,
                         }),
-                        pos: new THREE.Vector3(0, 0, -22.5)
+                        pos: new THREE.Vector3(0, 0, -25.5)
+                    },
+                    {
+                        name: 'semcube1',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-25.5, 0, 15)
+                    },
+                    {
+                        name: 'semcube2',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-25.5, 0, 10)
+                    },
+                    {
+                        name: 'semcube3',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-25.5, 0, 5)
+                    },
+                    {
+                        name: 'semcube4',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-25.5, 0, 0)
+                    },
+                    {
+                        name: 'semcube5',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-25.5, 0, -5)
+                    },
+                    {
+                        name: 'semcube6',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-25.5, 0, -10)
+                    },
+                    {
+                        name: 'semcube7',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-25.5, 0, -15)
+                    },
+                    {
+                        name: 'workcube1',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('yellow'),
+                            emissiveIntensity: 1.5,
+                        }),
+                        pos: new THREE.Vector3(25.5, 0, -5)
+                    },
+                    {
+                        name: 'tourcube1',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('yellow'),
+                            emissiveIntensity: 1.5,
+                        }),
+                        pos: new THREE.Vector3(25.5, 0, 5)
+                    },
+                    {
+                        name: 'certcube1',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('lightgreen'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(5, 0, 25.5)
+                    },
+                    {
+                        name: 'certcube2',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('lightgreen'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-5, 0, 25.5)
                     },
                     {
                         name: 'room1',
-                        geo: new THREE.BoxGeometry(roomx, 100, roomz),
+                        geo: new THREE.BoxGeometry(roomx, 300, roomz),
                         mat: new THREE.MeshStandardMaterial({
                             color: 'white',
                             wireframe: true,
                             transparent: true,
                             opacity: 0.2,
                         }),
-                        pos: new THREE.Vector3(0, 48, 0)
+                        pos: new THREE.Vector3(0, 148, 0)
                     },
                     // {
                     //     name: 'plyr',
@@ -234,7 +388,7 @@ const ThreeScene: React.FC = () => {
                         );
                     }
 
-                    if (10 < Math.abs(m.x) || 5 < Math.abs(m.y)) {
+                    if (3 < Math.abs(m.x) || 3 < Math.abs(m.y)) {
                         cam.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), - m.x * player.sens);
                         cam.rotateX(- m.y * player.sens);
                     }
@@ -293,7 +447,7 @@ const ThreeScene: React.FC = () => {
             }
 
             function init() {
-                scen.fog = new THREE.Fog('#19191a', 20, 80);
+                scen.fog = new THREE.Fog('black', 50, 80);
                 cam.position.z = 0;
                 cam.rotation.z = 0;
                 rend.setSize(window.innerWidth, window.innerHeight);
@@ -304,7 +458,9 @@ const ThreeScene: React.FC = () => {
                 cam.aspect = window.innerWidth / window.innerHeight;
                 cam.updateProjectionMatrix();
                 rend.setSize(window.innerWidth, window.innerHeight);
-            };
+            }
+
+            const dirs = new Map();
 
             const renderScene = () => {
                 jAnim();
@@ -325,12 +481,17 @@ const ThreeScene: React.FC = () => {
                 player.sens = sens();
                 // mesh.plyr.position.copy(cam.position);
                 // mesh.plyr.rotation.copy(cam.rotation);
-                mesh.maincube.rotation.x += 0.02;
-                mesh.maincube.rotation.y += 0.02;
-                mesh.abtcube.rotation.x += 0.02;
-                mesh.abtcube.rotation.y += 0.02;
-                //bloomComp.render();
-                rend.render(scen, cam);
+
+                for (const k in mesh) {
+                    if (!k.includes('cube')) continue;
+                    const c = mesh[k];
+                    dirs.has(c) || dirs.set(c, { x: Math.random() < 0.5 ? -1 : 1, y: Math.random() < 0.5 ? -1 : 1 });
+                    c.rotation.x += 0.02 * dirs.get(c).x;
+                    c.rotation.y += 0.02 * dirs.get(c).y;
+                }
+
+                bloomComp.render();
+                //rend.render(scen, cam);
                 requestAnimationFrame(renderScene);
             };
 
