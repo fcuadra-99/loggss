@@ -512,8 +512,6 @@ const ThreeScene: React.FC = () => {
                         }
                     }
                 } else {
-                    setfront('');
-                    setfacer('');
                     document.onclick = null;
                 }
 
@@ -574,29 +572,64 @@ const ThreeScene: React.FC = () => {
                 verticalAlign: 'middle'
             } as React.CSSProperties,
             p: {
-                margin: '60px'
+                margin: '70px 100px'
             }
         }
 
         function Text() {
-            if (facing == 'semcube1') {
-                return `Speaker: Ned Isaiah Palacios | 
+            switch (facing) {
+                case "semcube1":
+                    return `#1 Navigating Software Development in the Industry | Speaker: Ned Isaiah Palacios | 
 Attending the seminar on navigating the software development industry taught me that it's not all about coding, but it's also about building connections. Early in my journey, I was hesitant to reach out or ask for help, afraid it would make me seem inexperienced. Looking back, I regret not networking sooner, as some of my best opportunities came from simple conversations.
 The speaker emphasized that companies often prefer to hire people they know or have seen before, which made me realize how important it is to be visible and confident. I learned that connecting with others can be just as valuable as technical skills, and I now understand the power of being open, approachable, and proactive.
 Another important takeaway was the value of slowly building a portfolio. The speaker encouraged us to use it as a way to show our growth, skills, and experiences to potential employers. This seminar boosted my confidence and gave me a clearer direction on how to navigate my career by balancing both my technical development and personal connections.`
+                case "semcube2":
+                    return `#2 Enhancing Audio Data Processing: Development and Evaluation of a Transcriber Tool|
+                    Speaker: Sir Carlo Castro|
+Our speaker presented his capstone project titled "SultiWag," a unique application that focuses on converting indigenous languages into English. His project aimed to bridge communication gaps through technology, especially in preserving and understanding native dialects.
+In addition to the translation feature, Sir Carlo showcased how the app transcribes audio input. This functionality allows spoken words in indigenous languages to be recognized and then converted into English text. It demonstrated the app’s potential for educational and cultural preservation purposes.
+The speaker also shared valuable insights on what we should expect in our own capstone journeys. He emphasized the importance of originality, real-world application, and proper time management. His talk gave us a clearer picture of the challenges and rewards that come with developing a meaningful project.`
+                case "semcube3":
+                    return `#3 Research 101: Conference Presentation and Funding Techniques|
+                    Speaker: Sir Cris John David R. Manero|
+The speaker for our third seminar session focused on teaching us effective tips and techniques for presenting our research confidently and clearly. The session was designed to help us become more comfortable and well-prepared for future academic presentations. It provided us with a better understanding of how to communicate our ideas effectively.
+The speaker emphasized the importance of thoroughly knowing our topic and practicing consistently. Key techniques such as using visual aids wisely and maintaining eye contact were discussed. These strategies were shown to enhance both delivery and audience engagement.
+In addition to the technical advice, the speaker encouraged us to stay calm and composed during presentations. We were reminded that feeling nervous is normal and can be managed through preparation and self-confidence. These insights helped reduce our anxiety and gave us a more positive perspective on presenting our research.`
+                case "semcube4":
+                    return `#4 TherapEase: Bridging and Fostering Therapy Collaboration for Therapists and Carers|Speaker: Sir Hizon Caja|
+The speaker for our fourth seminar session presented a capstone project called TherapEase. The session focused on explaining how the application works and the specific problems it aims to solve for people in need. The presentation provided insight into how technology can be used for meaningful, real-world impact.
+The speaker explained the application's features and how it was designed to support individuals requiring therapeutic assistance. The discussion included technical details and real-life scenarios where the app could be beneficial. It helped us understand the process of developing a purposeful and user-focused project.
+The speaker also offered advice on what to expect in our own capstone journey. Emphasis was placed on proper planning, identifying real-world problems, and staying committed to our ideas. The guidance helped set clearer expectations and encouraged us to think critically about our future work.
+                    `
+                case "semcube5":
+                    return `#5 Research 101: The Ins and Outs of Software Engineering Research Project.|Speaker: Ma'am Shenna Rhea Cloribel|
+The speaker for our fifth seminar session shared tips and techniques for approaching future software engineering projects. The session aimed to prepare us for the challenges and expectations we may face during the development process. Her insights were practical and aligned with real industry experiences.
+To support the discussion, the speaker presented a past, working application developed by UIC CCS alumni. This example showcased how a well-designed system can remain relevant and functional even years after its creation. It served as a strong reminder of the importance of quality, planning, and adaptability in software design.
+The speaker encouraged us to take inspiration from existing projects while also focusing on innovation. We were reminded to be open to learning and to constantly refine our ideas throughout development. This motivated us to aim for lasting impact in our future software engineering efforts.
+                    `
+                case "semcube6":
+                    return `#6 Bridging Academia and Startup Innovation|
+                Speaker: Caesar Ian Benablo|
+Listening to this talk made me realize how often student research ends up being underutilized. Most of us focus so much on just finishing our thesis or graduating that we forget the bigger picture: what happens to our work afterward? Our speaker pointed out that research shouldn’t just be for academic requirements; it should lead to real solutions that can benefit communities or even lead to startup opportunities.
+He explained that for research to have real value, it needs to go through steps like prototyping, customer validation, and actual use in the real world. Unfortunately, many research outputs never make it that far. To change that, students need to develop an entrepreneurial mindset, teachers need more support, and schools should connect more with communities. He also emphasized the importance of having incubators, accessible funding, and public spaces where innovators can collaborate and build.
+What stuck with me most is the idea that graduation isn’t the finish line — it’s just the start. We need to think about how our work can continue to grow and make an impact. This talk made me reflect on my own goals and how I can push my ideas beyond the classroom to actually help people and create something meaningful.`
+                default:
+                    return ''
             }
-            return "aa"
         }
 
 
         return (
             <>
                 <div className={`inactive`} style={styles.fa}>
-                    <p style={styles.p}>
+                    <h2 style={styles.p}>
                         <b>{`${Text().split('|')[0]}`}</b>
+                    </h2>
+                    <p style={styles.p}>
+                        <b>{`${Text().split('|')[1]}`}</b>
                     </p>
                     <p style={styles.p}>
-                        {`${Text().split('|')[1]}`}
+                        {`${Text().split('|')[2]}`}
                     </p>
 
                 </div>
