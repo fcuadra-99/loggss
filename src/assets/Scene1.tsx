@@ -561,6 +561,7 @@ const ThreeScene: React.FC = () => {
     );
 
     function interact(f: string) {
+        f;
         const styles = {
             fa: {
                 position: 'fixed',
