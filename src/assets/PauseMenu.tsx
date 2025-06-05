@@ -59,6 +59,14 @@ function PauseMenu(ctrlon: boolean) {
     const [opt, togopt] = useState(false);
 
     const styles = {
+        ogg: {
+            backgroundColor: 'red',
+            position: 'fixed',
+            width: '100px',
+            height: '100px',
+            inset: '0, 0, 0, 0',
+            marginLeft: '50%'
+        } as React.CSSProperties,
         pbg: {
             pointerEvents: 'all',
             position: 'fixed',
@@ -128,7 +136,7 @@ function PauseMenu(ctrlon: boolean) {
             backgroundColor: `${scols}`,
             width: '40vw',
             minWidth: '300px',
-            height: '330px',
+            height: '120px',
             zIndex: '12',
             pointerEvents: 'all',
             borderRadius: '20px'
@@ -141,17 +149,17 @@ function PauseMenu(ctrlon: boolean) {
         <>
             <div onClick={tPause} className={`${toggle(ctrlon)}`} style={styles.pbg} />
             <section className={`${toggle(ctrlon)}`} style={styles.pmenu}>
-                <h1 style={styles.pmenuLabe}>Paused</h1>
+                <h1 style={styles.pmenuLabe}>MyLoggs</h1>
+                <p style={styles.pmenuLabe}>(Paused)</p>
                 <p style={styles.pmenuLabe}>Click to Continue</p>
                 <Btns />
                 <div style={styles.optiC} className={`${opt ? "active" : "inactive"}`} >
                     <h3 style={styles.h3}>Options</h3>
                     {SensiSlider()}
-                    {maVolSlider()}
-                    {muVolSlider()}
-                    {sdVolSlider()}
                 </div>
             </section>
+            <div style={styles.ogg} className={``} >
+            </div>
         </>
     )
 

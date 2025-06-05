@@ -8,6 +8,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/Addons.js';
 
 import * as THREE from 'three';
 import PauseMenu from './PauseMenu';
+import { degToRad } from 'three/src/math/MathUtils.js';
 
 let ctrlon = true;
 
@@ -39,35 +40,84 @@ const ThreeScene: React.FC = () => {
                     0.1,
                     1000),
                 rend: new THREE.WebGLRenderer({ antialias: false }),
-            }; 
+            };
 
+            const raycaster = new THREE.Raycaster();
+            raycaster.far = 10;
+            const pointer = new THREE.Vector2();
 
             const dlight = new THREE.AmbientLight('white', 1);
             dlight.castShadow = false;
 
-            let test, mixer;
-            const loder = new GLTFLoader();
-            loder.load(
-                "/oiiai.glb",
-                function (gltf) {
-                    test = gltf.scene;
-                    test.position.y = -0.2;
-                    test.scale.set(1.5, 1.5, 1.5);
-                    scen.add(test);
-
-                    mixer = new THREE.AnimationMixer(test);
-
-                    mixer.clipAction(gltf.animations[1]).play();
-                    mixer.update(0.12);
-                    console.log(gltf.animations);
-                },
-                function (xhr) {
-                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                },
-                function (error) {
-                    console.log(error);
-                }
-            );
+            {
+                let test;
+                let scale = 3;
+                const loder = new GLTFLoader();
+                loder.load(
+                    "/semtext.glb",
+                    function (gltf) {
+                        test = gltf.scene;
+                        test.rotation.y = degToRad(90);
+                        test.position.set(-30, 10, 0)
+                        test.scale.set(scale, scale, scale);
+                        scen.add(test);
+                    },
+                    function (xhr) {
+                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                );
+                loder.load(
+                    "/wttext.glb",
+                    function (gltf) {
+                        test = gltf.scene;
+                        test.rotation.y = degToRad(-90);
+                        test.position.set(30, 12.5, 0)
+                        test.scale.set(scale, scale, scale);
+                        scen.add(test);
+                    },
+                    function (xhr) {
+                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                );
+                loder.load(
+                    "/weltext.glb",
+                    function (gltf) {
+                        test = gltf.scene;
+                        test.rotation.y = degToRad(0);
+                        test.position.set(0, 12.5, -30)
+                        test.scale.set(scale * 2, scale * 2, scale * 2);
+                        scen.add(test);
+                    },
+                    function (xhr) {
+                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                );
+                loder.load(
+                    "/certext.glb",
+                    function (gltf) {
+                        test = gltf.scene;
+                        test.rotation.y = degToRad(180);
+                        test.position.set(0, 10, 30)
+                        test.scale.set(scale, scale, scale);
+                        scen.add(test);
+                    },
+                    function (xhr) {
+                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                );
+            }
 
             scen.add(dlight);
 
@@ -85,20 +135,111 @@ const ThreeScene: React.FC = () => {
             bloomComp.addPass(rendScen);
             bloomComp.addPass(bloompass);
 
+            let roomx = 50, roomz = 50;
+
+            // Objs
+            let mesh: { [key: string]: THREE.Mesh } = {};
+            {
+                const obj = [
+                    {
+                        name: 'maincube',
+                        geo: new THREE.BoxGeometry(10, 10, 10),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('hotpink'),
+                            emissiveIntensity: 4,
+                        }),
+                        pos: new THREE.Vector3(0, 40, 0)
+                    },
+                    {
+                        name: 'abtcube',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0,
+                            flatShading: true,
+                            emissive: new THREE.Color('orange'),
+                            emissiveIntensity: 4,
+                        }),
+                        pos: new THREE.Vector3(0, 0, -22.5)
+                    },
+                    {
+                        name: 'room1',
+                        geo: new THREE.BoxGeometry(roomx, 100, roomz),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.2,
+                        }),
+                        pos: new THREE.Vector3(0, 48, 0)
+                    },
+                    // {
+                    //     name: 'plyr',
+                    //     geo: new THREE.BoxGeometry(30, 30, 30),
+                    //     mat: new THREE.MeshBasicMaterial({
+                    //         color: 'white',
+                    //         wireframe: true,
+                    //         transparent: true,
+                    //         opacity: 1
+                    //     }),
+                    //     pos: new THREE.Vector3(0, -0.2, 0)
+                    // }
+                ];
+
+
+
+                for (let o of obj) {
+                    mesh[o.name] = new THREE.Mesh(o.geo, o.mat);
+                    mesh[o.name].position.copy(o.pos);
+                    mesh[o.name].name = o.name;
+                    scen.add(mesh[o.name]);
+                }
+            }
+
+            function semcubeMake() {
+                let geo = new THREE.BoxGeometry()
+                let mat = new THREE.MeshStandardMaterial({
+
+                    color: 'white',
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0,
+                    flatShading: true,
+                    emissive: new THREE.Color('orange'),
+                    emissiveIntensity: 4,
+                })
+                let pos = new THREE.Vector3(0, 0, -22.5)
+
+                const cube = new THREE.Mesh(geo, mat);
+                cube.position.copy(pos);
+                cube.name = 'a';
+                scen.add(cube);
+            }
+
             // Ctrl
             const m = { x: 0, y: 0 };
+            let mult = 1.2;
             function ctrl() {
                 let { bnds, dir, mv, spd } = {
-                    bnds: { minX: -50, maxX: 50, minY: -3, maxY: 10, minZ: -50, maxZ: 50 },
+                    bnds: { minX: -roomx / 2, maxX: roomx / 2, minY: -3, maxY: 10, minZ: -roomz / 2, maxZ: roomz / 2 },
                     dir: new THREE.Vector3(),
                     mv: new THREE.Vector3(),
-                    spd: player.speed * 1.2,
+                    spd: player.speed * mult,
                 }
                 cam.getWorldDirection(dir).normalize();
 
                 if (!ctrlon) {
                     const side = new THREE.Vector3().crossVectors(dir, cam.up).normalize();
                     if (controls[87]) mv.add(dir);
+                    if (controls[16]) mult = 2;
+                    else mult = 1.2;
                     if (controls[83]) mv.sub(dir);
                     if (controls[65]) mv.sub(side);
                     if (controls[68]) mv.add(side);
@@ -119,7 +260,7 @@ const ThreeScene: React.FC = () => {
                     }
 
                     const euler = new THREE.Euler().setFromQuaternion(cam.quaternion, 'YXZ');
-                    euler.x = THREE.MathUtils.clamp(euler.x, -0.8, 1);
+                    euler.x = THREE.MathUtils.clamp(euler.x, -0.9, 1);
                     cam.quaternion.setFromEuler(euler);
 
                     if (controls[32]) {
@@ -129,61 +270,6 @@ const ThreeScene: React.FC = () => {
                     }
                 }
             }
-
-
-            // Objs
-            let mesh: { [key: string]: THREE.Mesh } = {};
-            {
-                const obj = [
-                    {
-                        name: 'cube',
-                        geo: new THREE.BoxGeometry(),
-                        mat: new THREE.MeshStandardMaterial({
-                            color: 'white',
-                            wireframe: true,
-                            transparent: true,
-                            opacity: 0.8,
-                            flatShading: true,
-                            emissive: new THREE.Color('hotpink'),
-                            emissiveIntensity: 4,
-                        }),
-                        pos: new THREE.Vector3(0, 0, 0)
-                    },
-                    {
-                        name: 'room',
-                        geo: new THREE.BoxGeometry(100, 0, 100),
-                        mat: new THREE.MeshStandardMaterial({
-                            color: 'white',
-                            wireframe: true,
-                            transparent: true,
-                            opacity: 0.1,
-                            emissive: new THREE.Color('skyblue'),
-                            emissiveIntensity: 10,
-                        }),
-                        pos: new THREE.Vector3(0, -2, 0)
-                    },
-                    {
-                        name: 'plyr',
-                        geo: new THREE.BoxGeometry(0.3, 0.5, 0.3),
-                        mat: new THREE.MeshBasicMaterial({
-                            color: 'skyblue',
-                            wireframe: true,
-                            transparent: true,
-                            opacity: 0
-                        }),
-                        pos: new THREE.Vector3(0, -0.2, 0)
-                    }
-                ];
-
-
-
-                for (let o of obj) {
-                    mesh[o.name] = new THREE.Mesh(o.geo, o.mat);
-                    mesh[o.name].position.copy(o.pos);
-                    scen.add(mesh[o.name]);
-                }
-            }
-
 
             // Other
             {
@@ -227,8 +313,8 @@ const ThreeScene: React.FC = () => {
             }
 
             function init() {
-                scen.fog = new THREE.Fog('#19191a', 90, 100);
-                cam.position.z = 5;
+                scen.fog = new THREE.Fog('#19191a', 20, 80);
+                cam.position.z = 0;
                 cam.rotation.z = 0;
                 rend.setSize(window.innerWidth, window.innerHeight);
                 containerRef.current?.appendChild(rend.domElement);
@@ -243,19 +329,28 @@ const ThreeScene: React.FC = () => {
             const renderScene = () => {
                 jAnim();
                 ctrl();
+                raycaster.setFromCamera(pointer, cam);
+
+                const intersects = raycaster.intersectObjects(scen.children, true);
+
+                document.onclick = function (e) {
+                    if (ctrlon) return;
+                    for (let i = 0; i < intersects.length; i++) {
+                        const obj = intersects[i].object;
+                        console.log(obj.name);
+                    }
+                }
+
+
                 player.sens = sens();
-                mesh.plyr.position.copy(cam.position);
-                mesh.plyr.rotation.copy(cam.rotation);
-                mesh.cube.rotation.x += 0.02;
-                mesh.cube.rotation.y += 0.02;
-                // if (cmode() == 'light') {
-                //     scen.background = new THREE.Color('white');
-                //     scen.backgroundIntensity = 0.1;
-                // } else {
-                //     scen.background = new THREE.Color('black');
-                //     scen.backgroundIntensity = 0.1;
-                // }
-                bloomComp.render();
+                // mesh.plyr.position.copy(cam.position);
+                // mesh.plyr.rotation.copy(cam.rotation);
+                mesh.maincube.rotation.x += 0.02;
+                mesh.maincube.rotation.y += 0.02;
+                mesh.abtcube.rotation.x += 0.02;
+                mesh.abtcube.rotation.y += 0.02;
+                //bloomComp.render();
+                rend.render(scen, cam);
                 requestAnimationFrame(renderScene);
             };
 
