@@ -29,7 +29,28 @@ let player = {
 const ThreeScene: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [front, setfront] = useState('Test');
-    front;
+    const [interr, setinter] = useState(false);
+    let mode = getCookie('mode')
+    let theme = {
+        mcol: 'rgba(0, 0, 0, 0.575)',
+        scol: 'rgb(24, 24, 24)',
+        tcol: 'rgb(255, 255, 255)'
+    }
+    if (mode == 'light') {
+        theme = {
+            mcol: 'rgba(255, 255, 255, 0.74)',
+            scol: 'rgb(243, 243, 243)',
+            tcol: 'rgb(0, 0, 0)'
+        }
+    } else if (mode == 'dark') {
+        theme = {
+            mcol: 'rgba(0, 0, 0, 0.575)',
+            scol: 'rgb(24, 24, 24)',
+            tcol: 'rgb(255, 255, 255)'
+        }
+    }
+    front; interr;
+    inter = interr;
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -373,7 +394,7 @@ const ThreeScene: React.FC = () => {
                 }
                 cam.getWorldDirection(dir).normalize();
 
-                if (!ctrlon) {
+                if (!ctrlon && !inter) {
                     const side = new THREE.Vector3().crossVectors(dir, cam.up).normalize();
                     if (controls[87]) mv.add(dir);
                     if (controls[16]) mult = 2;
@@ -475,19 +496,25 @@ const ThreeScene: React.FC = () => {
                 const intersects = raycaster.intersectObjects(scen.children, true);
 
 
-                if (intersects.length === 0) {
+                if (intersects.length === 0 && !ctrlon) {
                     setfront('');
                     setfacer('');
-                } else {
+                    document.onclick = null;
+                } else if (!ctrlon) {
                     for (let i = 0; i < intersects.length && !ctrlon; i++) {
                         const obj = intersects[i].object;
-                        console.log(obj.name);
                         setfront(obj.name);
                         setfacer(obj.name);
                         document.onclick = function () {
-                            console.log('clicked', obj.name);
+                            if (obj.name != '' && obj.name != 'Text') {
+                                setinter(interr => !interr)
+                            }
                         }
                     }
+                } else {
+                    setfront('');
+                    setfacer('');
+                    document.onclick = null;
                 }
 
 
@@ -529,13 +556,92 @@ const ThreeScene: React.FC = () => {
             <div className='testoverlay'>
                 {facing}
             </div>
+            {interact(front)}
         </>
     );
+
+    function interact(f: string) {
+        const styles = {
+            fa: {
+                position: 'fixed',
+                backgroundColor: `${theme.mcol}`,
+                top: '0',
+                opacity: `${toggle(interr)}`,
+                width: '100%',
+                height: '100vh',
+                textAlign: 'center',
+                verticalAlign: 'middle'
+            } as React.CSSProperties,
+            p: {
+                margin: '60px'
+            }
+        }
+
+        function Text() {
+            if (facing == 'semcube1') {
+                return `Speaker: Ned Isaiah Palacios | 
+Attending the seminar on navigating the software development industry taught me that it's not all about coding, but it's also about building connections. Early in my journey, I was hesitant to reach out or ask for help, afraid it would make me seem inexperienced. Looking back, I regret not networking sooner, as some of my best opportunities came from simple conversations.
+The speaker emphasized that companies often prefer to hire people they know or have seen before, which made me realize how important it is to be visible and confident. I learned that connecting with others can be just as valuable as technical skills, and I now understand the power of being open, approachable, and proactive.
+Another important takeaway was the value of slowly building a portfolio. The speaker encouraged us to use it as a way to show our growth, skills, and experiences to potential employers. This seminar boosted my confidence and gave me a clearer direction on how to navigate my career by balancing both my technical development and personal connections.`
+            }
+            return "aa"
+        }
+
+
+        return (
+            <>
+                <div className={`inactive`} style={styles.fa}>
+                    <p style={styles.p}>
+                        <b>{`${Text().split('|')[0]}`}</b>
+                    </p>
+                    <p style={styles.p}>
+                        {`${Text().split('|')[1]}`}
+                    </p>
+
+                </div>
+            </>
+        )
+    }
 };
+
+let facing = '', inter = false;
 
 function setfacer(f: any) {
     facing = f;
 }
-let facing = '';
+
+const toggle = (toggle: boolean) => toggle ? "1" : "0";
+
+// function setCookie(cname: string, cvalue: any, exdays: number) {
+//     const d = new Date();
+//     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+//     let expires = "expires=" + d.toUTCString();
+//     document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+// }
+function getCookie(cname: string) {
+    let name = cname + "=";
+    let ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+// function isSet(cname: string) {
+//     let user = getCookie(cname);
+//     if (user != "") {
+//         return true;
+//     } else {
+//         if (user != "" && user != null) {
+//             setCookie("username", user, 365);
+//             return false;
+//         }
+//     }
+// }
 
 export default ThreeScene;
