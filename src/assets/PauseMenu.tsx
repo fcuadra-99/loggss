@@ -53,9 +53,9 @@ function PauseMenu(ctrlon: boolean) {
     const [scols, setscols] = useState(theme.scol)
     const [tcols, settcols] = useState(theme.tcol)
     const [sensit, setSens] = useState(sensi);
-    const [mainv, setmav] = useState(maVol);
-    const [sounv, setsv] = useState(sdVol);
-    const [musv, setmuv] = useState(muVol);
+    // const [mainv, setmav] = useState(maVol);
+    // const [sounv, setsv] = useState(sdVol);
+    // const [musv, setmuv] = useState(muVol);
     const [opt, togopt] = useState(false);
 
     const styles = {
