@@ -19,9 +19,6 @@ function App() {
     <>
       <main className='scene'>
         <Scene />
-        <div className='testoverlay'>
-          TEST
-        </div>
       </main>
     </>
   )

@@ -110,6 +110,16 @@ function PauseMenu(ctrlon: boolean) {
             color: `${tcols}`,
         } as React.CSSProperties,
 
+        pmenuLabe1: {
+            pointerEvents: 'all',
+            userSelect: 'none',
+            zIndex: 11,
+            margin: '0px',
+            color: `${tcols}`,
+            fontSize: '10px',
+            opacity: '0.4'
+        } as React.CSSProperties,
+
         h3: {
             margin: '20px 0px 0 0',
             color: `${tcols}`
@@ -152,7 +162,7 @@ function PauseMenu(ctrlon: boolean) {
             <div onClick={tPause} className={`${toggle(ctrlon)}`} style={styles.pbg} />
             <section className={`${toggle(ctrlon)}`} style={styles.pmenu}>
                 <h1 style={styles.pmenuLabe}>MyLoggs</h1>
-                <p style={styles.pmenuLabe}>(Paused)</p>
+                <p style={styles.pmenuLabe1}>(Paused)</p>
                 <p style={styles.pmenuLabe}>Click to Continue</p>
                 <Btns />
                 <div style={styles.optiC} className={`${opt ? "active" : "inactive"}`} >
@@ -160,7 +170,7 @@ function PauseMenu(ctrlon: boolean) {
                     {SensiSlider()}
                 </div>
             </section>
-            <div style={styles.ogg} className=''>
+            <div style={styles.ogg}>
             </div>
         </>
     )

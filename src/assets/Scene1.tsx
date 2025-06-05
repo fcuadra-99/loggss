@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { sens } from './PauseMenu';
 
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
@@ -28,10 +28,12 @@ let player = {
 
 const ThreeScene: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [front, setfront] = useState('Test');
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
             // Wrld
+
             const { scen, cam, rend } = {
                 scen: new THREE.Scene(),
                 cam: new THREE.PerspectiveCamera(
@@ -43,7 +45,8 @@ const ThreeScene: React.FC = () => {
             };
 
             const raycaster = new THREE.Raycaster();
-            raycaster.far = 10;
+            raycaster.far = 2;
+            raycaster.near = 0;
             const pointer = new THREE.Vector2();
 
             const dlight = new THREE.AmbientLight('white', 1);
@@ -460,6 +463,7 @@ const ThreeScene: React.FC = () => {
                 rend.setSize(window.innerWidth, window.innerHeight);
             }
 
+
             const dirs = new Map();
 
             const renderScene = () => {
@@ -469,13 +473,22 @@ const ThreeScene: React.FC = () => {
 
                 const intersects = raycaster.intersectObjects(scen.children, true);
 
-                document.onclick = function () {
-                    if (ctrlon) return;
-                    for (let i = 0; i < intersects.length; i++) {
+
+                if (intersects.length === 0) {
+                    setfront('');
+                    setfacer('');
+                } else {
+                    for (let i = 0; i < intersects.length && !ctrlon; i++) {
                         const obj = intersects[i].object;
                         console.log(obj.name);
+                        setfront(obj.name);
+                        setfacer(obj.name);
+                        document.onclick = function () {
+                            console.log('clicked', obj.name);
+                        }
                     }
                 }
+
 
 
                 player.sens = sens();
@@ -512,8 +525,16 @@ const ThreeScene: React.FC = () => {
         <>
             <div ref={containerRef} />
             {PauseMenu(ctrlon)}
+            <div className='testoverlay'>
+                {facing}
+            </div>
         </>
     );
 };
+
+function setfacer(f: any) {
+    facing = f;
+}
+let facing = '';
 
 export default ThreeScene;
