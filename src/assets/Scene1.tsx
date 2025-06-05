@@ -29,6 +29,7 @@ let player = {
 const ThreeScene: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [front, setfront] = useState('Test');
+    front;
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
