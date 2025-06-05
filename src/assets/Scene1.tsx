@@ -203,26 +203,6 @@ const ThreeScene: React.FC = () => {
                 }
             }
 
-            function semcubeMake() {
-                let geo = new THREE.BoxGeometry()
-                let mat = new THREE.MeshStandardMaterial({
-
-                    color: 'white',
-                    wireframe: true,
-                    transparent: true,
-                    opacity: 0,
-                    flatShading: true,
-                    emissive: new THREE.Color('orange'),
-                    emissiveIntensity: 4,
-                })
-                let pos = new THREE.Vector3(0, 0, -22.5)
-
-                const cube = new THREE.Mesh(geo, mat);
-                cube.position.copy(pos);
-                cube.name = 'a';
-                scen.add(cube);
-            }
-
             // Ctrl
             const m = { x: 0, y: 0 };
             let mult = 1.2;
@@ -333,7 +313,7 @@ const ThreeScene: React.FC = () => {
 
                 const intersects = raycaster.intersectObjects(scen.children, true);
 
-                document.onclick = function (e) {
+                document.onclick = function () {
                     if (ctrlon) return;
                     for (let i = 0; i < intersects.length; i++) {
                         const obj = intersects[i].object;

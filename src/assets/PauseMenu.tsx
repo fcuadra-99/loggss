@@ -60,12 +60,14 @@ function PauseMenu(ctrlon: boolean) {
 
     const styles = {
         ogg: {
-            backgroundColor: 'red',
+            backgroundColor: 'white',
             position: 'fixed',
-            width: '100px',
-            height: '100px',
-            inset: '0, 0, 0, 0',
-            marginLeft: '50%'
+            width: '10px',
+            height: '10px',
+            borderRadius: '10px',
+            top: '50%',
+            left: '49.5%',
+            transform: 'translateY(-50%), translateX(-50%)',
         } as React.CSSProperties,
         pbg: {
             pointerEvents: 'all',
@@ -158,7 +160,7 @@ function PauseMenu(ctrlon: boolean) {
                     {SensiSlider()}
                 </div>
             </section>
-            <div style={styles.ogg} className={``} >
+            <div style={styles.ogg} className=''>
             </div>
         </>
     )
@@ -217,75 +219,6 @@ function PauseMenu(ctrlon: boolean) {
                     min={0.00001} max={0.005}
                     step={0.00001}
                     value={sensit}
-                    onChange={handleInputChange}
-                    style={styles.inp}
-                />
-            </div>
-
-        </>)
-    }
-    function maVolSlider() {
-        const handleInputChange = (event: { target: { value: any; }; }) => {
-            setmav(Number(event.target.value));
-            maVol = mainv;
-            setCookie('mainvol', maVol, 30);
-
-        };
-
-        return (<>
-            <div style={styles.slider} className={`${toggle(opt)}`}>
-                <h4 style={styles.label}>
-                    {`Main Volume: ${(mainv)}`}
-                </h4>
-                <input type="range"
-                    min={0} max={100}
-                    step={1}
-                    value={mainv}
-                    onChange={handleInputChange}
-                    style={styles.inp}
-                />
-            </div>
-
-        </>)
-    }
-    function muVolSlider() {
-        const handleInputChange = (event: { target: { value: any }; }) => {
-            setmuv(Number(event.target.value));
-            muVol = musv;
-            setCookie('musvol', muVol, 30);
-        };
-
-        return (<>
-            <div style={styles.slider} className={`${toggle(opt)}`}>
-                <h4 style={styles.label}>
-                    {`Music Volume: ${(musv)}`}
-                </h4>
-                <input type="range"
-                    min={0} max={100}
-                    step={1}
-                    value={musv}
-                    onChange={handleInputChange}
-                    style={styles.inp}
-                />
-            </div>
-        </>)
-    }
-    function sdVolSlider() {
-        const handleInputChange = (event: { target: { value: any; }; }) => {
-            setsv(Number(event.target.value));
-            sdVol = sounv;
-            setCookie('soundvol', sdVol, 30);
-        };
-
-        return (<>
-            <div style={styles.slider} className={`${toggle(opt)}`}>
-                <h4 style={styles.label}>
-                    {`Sound Volume: ${(sounv)}`}
-                </h4>
-                <input type="range"
-                    min={0} max={100}
-                    step={1}
-                    value={sounv}
                     onChange={handleInputChange}
                     style={styles.inp}
                 />
