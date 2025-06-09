@@ -581,7 +581,7 @@ const ThreeScene: React.FC = () => {
             } as React.CSSProperties,
             img: {
                 maxWidth: '80%',
-                maxHeight: '50%',
+                maxHeight: '40%',
                 margin: '0px 50px'
             } as React.CSSProperties
         }
@@ -644,7 +644,6 @@ At the same time, we have to remember that AI is just a tool, not something we s
         }
 
         console.log(Text().split('|')[3])
-
 
         return (
             <>
