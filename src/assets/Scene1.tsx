@@ -635,7 +635,7 @@ Prompt engineering is becoming a really useful skill, especially with how much w
 
 As college students, prompt engineering can help us with things like writing papers, studying for exams, or even organizing ideas. Instead of spending hours looking for the right info, we can use AI to help us work faster and more efficiently—if we know how to prompt it the right way. It’s kind of like learning how to ask better questions so we can get better answers.
 
-At the same time, we have to remember that AI is just a tool, not something we should rely on for everything. The speaker made it clear that we still need to think for ourselves and not let AI do all the work. If we use it smartly, AI can make our lives easier, but we still need to put in the effort and use our judgment.|`
+At the same time, we have to remember that AI is just a tool, not something we should rely on for everything. The speaker made it clear that we still need to think for ourselves and not let AI do all the work. If we use it smartly, AI can make our lives easier, but we still need to put in the effort and use our judgment.|/work1.jpg`
                 default:
                     return `Empty||`
             }
