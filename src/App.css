@@ -11,10 +11,13 @@
 
 .testoverlay {
   position: fixed;
-  top: 15px;
-  left: 15px;
+  top: 49vh;
+  left: 51%;
   margin: 0;
   padding: 0;
+  text-align: center;
+  transform: translateY(-50%), translateX(-50%);
+  z-index: 0;
 }
 
 .active {

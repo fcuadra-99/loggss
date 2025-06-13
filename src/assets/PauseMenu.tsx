@@ -59,16 +59,7 @@ function PauseMenu(ctrlon: boolean) {
     const [opt, togopt] = useState(false);
 
     const styles = {
-        ogg: {
-            backgroundColor: 'white',
-            position: 'fixed',
-            width: '10px',
-            height: '10px',
-            borderRadius: '10px',
-            top: '50%',
-            left: '49.5%',
-            transform: 'translateY(-50%), translateX(-50%)',
-        } as React.CSSProperties,
+
         pbg: {
             pointerEvents: 'all',
             position: 'fixed',
@@ -170,8 +161,6 @@ function PauseMenu(ctrlon: boolean) {
                     {SensiSlider()}
                 </div>
             </section>
-            <div style={styles.ogg}>
-            </div>
         </>
     )
 

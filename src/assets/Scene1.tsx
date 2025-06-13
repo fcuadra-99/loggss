@@ -30,6 +30,7 @@ const ThreeScene: React.FC = () => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [front, setfront] = useState('Test');
     const [interr, setinter] = useState(false);
+    const [facce, sface] = useState("white");
     let mode = getCookie('mode')
     let theme = {
         mcol: 'rgba(0, 0, 0, 0.575)',
@@ -206,7 +207,7 @@ const ThreeScene: React.FC = () => {
                             emissive: new THREE.Color('skyblue'),
                             emissiveIntensity: 2,
                         }),
-                        pos: new THREE.Vector3(-25.5, 0, 15)
+                        pos: new THREE.Vector3(-25.5, 0, 20)
                     },
                     {
                         name: 'semcube2',
@@ -220,7 +221,7 @@ const ThreeScene: React.FC = () => {
                             emissive: new THREE.Color('skyblue'),
                             emissiveIntensity: 2,
                         }),
-                        pos: new THREE.Vector3(-25.5, 0, 10)
+                        pos: new THREE.Vector3(-25.5, 0, 15)
                     },
                     {
                         name: 'semcube3',
@@ -234,7 +235,7 @@ const ThreeScene: React.FC = () => {
                             emissive: new THREE.Color('skyblue'),
                             emissiveIntensity: 2,
                         }),
-                        pos: new THREE.Vector3(-25.5, 0, 5)
+                        pos: new THREE.Vector3(-25.5, 0, 10)
                     },
                     {
                         name: 'semcube4',
@@ -248,7 +249,7 @@ const ThreeScene: React.FC = () => {
                             emissive: new THREE.Color('skyblue'),
                             emissiveIntensity: 2,
                         }),
-                        pos: new THREE.Vector3(-25.5, 0, 0)
+                        pos: new THREE.Vector3(-25.5, 0, 5)
                     },
                     {
                         name: 'semcube5',
@@ -291,6 +292,20 @@ const ThreeScene: React.FC = () => {
                             emissiveIntensity: 2,
                         }),
                         pos: new THREE.Vector3(-25.5, 0, -15)
+                    },
+                    {
+                        name: 'semcube8',
+                        geo: new THREE.BoxGeometry(),
+                        mat: new THREE.MeshStandardMaterial({
+                            color: 'white',
+                            wireframe: true,
+                            transparent: true,
+                            opacity: 0.8,
+                            flatShading: true,
+                            emissive: new THREE.Color('skyblue'),
+                            emissiveIntensity: 2,
+                        }),
+                        pos: new THREE.Vector3(-25.5, 0, -20)
                     },
                     {
                         name: 'workcube1',
@@ -492,34 +507,29 @@ const ThreeScene: React.FC = () => {
                 jAnim();
                 ctrl();
                 raycaster.setFromCamera(pointer, cam);
-
                 const intersects = raycaster.intersectObjects(scen.children, true);
-
 
                 if (intersects.length === 0 && !ctrlon) {
                     setfront('');
                     setfacer('');
+                    sface("white");
                     document.onclick = null;
                 } else if (!ctrlon) {
                     for (let i = 0; i < intersects.length && !ctrlon; i++) {
                         const obj = intersects[i].object;
+                        sface("blue")
                         setfront(obj.name);
                         setfacer(obj.name);
                         document.onclick = function () {
-                            if (obj.name != '' && obj.name != 'Text') {
+                            if (obj.name != '' && obj.name != 'Text')
                                 setinter(interr => !interr)
-                            }
                         }
                     }
                 } else {
                     document.onclick = null;
                 }
 
-
-
                 player.sens = sens();
-                // mesh.plyr.position.copy(cam.position);
-                // mesh.plyr.rotation.copy(cam.rotation);
 
                 for (const k in mesh) {
                     if (!k.includes('cube')) continue;
@@ -547,6 +557,19 @@ const ThreeScene: React.FC = () => {
         }
     }, []);
 
+    const styles = {
+        ogg: {
+            backgroundColor: `${facce}`,
+            position: 'fixed',
+            width: '8px',
+            height: '8px',
+            borderRadius: '10px',
+            top: '50%',
+            left: '49.5%',
+            transform: 'translateY(-50%), translateX(-50%)',
+        } as React.CSSProperties
+    }
+
     return (
         <>
             <div ref={containerRef} />
@@ -555,6 +578,7 @@ const ThreeScene: React.FC = () => {
                 {facing}
             </div>
             {interact(front)}
+            <div style={styles.ogg}></div>
         </>
     );
 
@@ -569,19 +593,22 @@ const ThreeScene: React.FC = () => {
                 width: '100%',
                 height: '100vh',
                 textAlign: 'center',
-                verticalAlign: 'middle'
+                verticalAlign: 'middle',
+                zIndex: '4'
             } as React.CSSProperties,
             p: {
                 margin: '40px 100px',
-                color: `${theme.tcol}`
+                color: `${theme.tcol}`,
+                fontSize: '1.5vh'
             } as React.CSSProperties,
             h2: {
                 margin: '70px 100px',
-                color: `${theme.tcol}`
+                color: `${theme.tcol}`,
+                fontSize: '2.5vh',
             } as React.CSSProperties,
             img: {
                 maxWidth: '80%',
-                maxHeight: '40%',
+                height: '30vh',
                 margin: '0px 50px'
             } as React.CSSProperties
         }
@@ -621,6 +648,11 @@ The speaker encouraged us to take inspiration from existing projects while also 
 Listening to this talk made me realize how often student research ends up being underutilized. Most of us focus so much on just finishing our thesis or graduating that we forget the bigger picture: what happens to our work afterward? Our speaker pointed out that research shouldn’t just be for academic requirements; it should lead to real solutions that can benefit communities or even lead to startup opportunities.
 He explained that for research to have real value, it needs to go through steps like prototyping, customer validation, and actual use in the real world. Unfortunately, many research outputs never make it that far. To change that, students need to develop an entrepreneurial mindset, teachers need more support, and schools should connect more with communities. He also emphasized the importance of having incubators, accessible funding, and public spaces where innovators can collaborate and build.
 What stuck with me most is the idea that graduation isn’t the finish line — it’s just the start. We need to think about how our work can continue to grow and make an impact. This talk made me reflect on my own goals and how I can push my ideas beyond the classroom to actually help people and create something meaningful.|sem6.jpg`
+                case "semcube7":
+                    return `#7 Language Models and Agentic AI|
+Speaker: Ralph Vincent Regalado|
+Listening to this talk gave me a deeper understanding of how language models (LMs) work and how much they’ve progressed. Our speaker walked us through how LMs are trained, fine-tuned with human feedback, and used in real-world applications like AI coding assistants or domain-specific copilots. He also introduced agentic LMs—models that can reason, use tools, and even interact with their environment, which really opened my eyes to their potential beyond simple text generation.
+We also learned about practical steps like prompt preparation, API usage, and integrating LMs with services, along with limitations such as hallucinations, knowledge cutoffs, and privacy concerns. I found the concept of Retrieval Augmented Generation (RAG) especially interesting because it helps address some of these issues by combining model output with external data. What really stuck with me was how these models are no longer just passive tools—they’re becoming agents that can plan, reflect, and even collaborate to solve complex tasks.|sem7.jpg`
                 case "abtcube":
                     return `Hi I'm Francis!|My name is Francis Neil V. Cuadra, and I’m a 20-year-old college student at the University of the Immaculate Conception. I love programming, drawing, playing video games, and listening to music in my free time. Balancing my studies with my hobbies keeps me motivated and lets me explore both creativity and technology.||/pfp.jpg`
                 case "certcube1":
